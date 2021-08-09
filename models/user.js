@@ -1,16 +1,82 @@
 //our document structure it conatines the attributes of the document with type and mention if it is required or not
 const mongoose = require("mongoose");
-const { Schema, model } = mongoose;
-
-const UserSchema = new Schema({
-  name: {
-    type: String,
-    required: true,
+const crypto = require("crypto");
+// user schema
+const userScheama = new mongoose.Schema(
+  {
+    name: {
+      type: String,
+      trim: true,
+      required: true,
+      max: 32,
+    },
+    email: {
+      type: String,
+      trim: true,
+      required: true,
+      unique: true,
+      lowercase: true,
+    },
+    hashed_password: {
+      type: String,
+      required: true,
+    },
+    birthDate: {
+      type: Date,
+    },
+    adress: {
+      type: String,
+    },
+    phone: {
+      type: String,
+      required: true,
+    },
+    salt: String,
+    role: {
+      type: String,
+      default: "customer",
+    },
+    resetPasswordLink: {
+      data: String,
+      default: "",
+    },
   },
-  lastName: {
-    type: String,
-    required: true,
-  },
-});
+  { timestamps: true }
+);
 
-module.exports = User = model("user", UserSchema);
+// virtual
+userScheama
+  .virtual("password")
+  .set(function (password) {
+    this._password = password;
+    this.salt = this.makeSalt();
+    this.hashed_password = this.encryptPassword(password);
+  })
+  .get(function () {
+    return this._password;
+  });
+
+// methods
+userScheama.methods = {
+  authenticate: function (plainText) {
+    return this.encryptPassword(plainText) === this.hashed_password; // true false
+  },
+
+  encryptPassword: function (password) {
+    if (!password) return "";
+    try {
+      return crypto
+        .createHmac("sha1", this.salt)
+        .update(password)
+        .digest("hex");
+    } catch (err) {
+      return "";
+    }
+  },
+
+  makeSalt: function () {
+    return Math.round(new Date().valueOf() * Math.random()) + "";
+  },
+};
+
+module.exports = mongoose.model("User", userScheama);

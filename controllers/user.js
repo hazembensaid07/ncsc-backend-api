@@ -3,9 +3,9 @@ const User = require("../models/user");
 exports.Receive = async (req, res) => {
   try {
     //   req.body
-    const { name, lastName } = req.body;
+    const { name } = req.body;
 
-    const newUser = new User({ name, lastName });
+    const newUser = new User({ name });
 
     //then we save it in the database
     await newUser.save();

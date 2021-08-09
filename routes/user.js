@@ -2,6 +2,6 @@
 const express = require("express");
 const router = express.Router();
 const { Receive } = require("../controllers/user");
-router.post("/post", Receive);
+router.post("/user/po", Receive);
 
 module.exports = router;

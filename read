@@ -1,0 +1,12 @@
+mkdir backend
+cd backend
+npm init : to install node modules 
+npm install dependencies (express mongoose ...)
+
+ npm i express mongoose  cors
+ npm install dotenv : to load global variables from .env thatnks to proccess.env
+ npm install --save-dev nodemon : to run the backend
+ we use cors to access our routes from any origin we can use it with all routes or with some routes and the implementation differs 
+.env contains global variables 
+port : the port in which server is running 
+DB-Uri : database uri local or atlas  

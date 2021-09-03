@@ -38,10 +38,10 @@ const createTransporter = async () => {
   return transporter;
 };
 
-exports.sendEmail = async (req, res, emailOptions) => {
+exports.sendEmail = async (req, res, emailData) => {
   try {
     let emailTransporter = await createTransporter();
-    await emailTransporter.sendMail(emailOptions);
+    await emailTransporter.sendMail(emailData);
   } catch (error) {
     console.log(error);
   }

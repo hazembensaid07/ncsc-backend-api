@@ -8,13 +8,14 @@ const cors = require("cors");
 const app = express();
 //connecting to DB
 connectDB();
+const api = require("./helpers/apiUri");
 
 // middleware global to work with json format
 app.use(express.json());
 
 app.use(cors());
 // router
-app.use("/api/user", require("./routes/user"));
+app.use(`${api()}`, require("./routes/user"));
 
 const PORT = process.env.PORT;
 // linkin the server to the port

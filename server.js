@@ -9,7 +9,7 @@ const app = express();
 //connecting to DB
 connectDB();
 const api = require("./helpers/apiUri");
-console.log(api());
+
 // middleware global to work with json format
 app.use(express.json());
 

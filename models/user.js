@@ -58,6 +58,7 @@ userScheama
 
 // methods
 userScheama.methods = {
+  //verify that the email and the password matches or not
   authenticate: function (plainText) {
     return this.encryptPassword(plainText) === this.hashed_password; // true false
   },

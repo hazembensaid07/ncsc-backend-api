@@ -1,4 +1,5 @@
 const { check } = require("express-validator");
+//verify automatically the req.body
 //validate the sign up form of the user
 exports.userSignupValidator = [
   check("name").not().isEmpty().withMessage("Name is required"),
@@ -40,4 +41,20 @@ exports.resetPasswordValidator = [
     .isEmpty()
     .isLength({ min: 6 })
     .withMessage("Password must be at least  6 characters long"),
+];
+exports.userUpdateValidator = [
+  check("name").not().isEmpty().withMessage("Name is required"),
+
+  //not negate the result of the nextvalidator
+  check("birthDate")
+    .not()
+    .isEmpty()
+    .isDate({ format: "DD-MM-YYYY" })
+    .withMessage("Must be a valid date"),
+  check("phone")
+    .not()
+    .isEmpty()
+    .isLength({ min: 6 })
+    .withMessage("phone is required"),
+  check("adress").not().isEmpty().withMessage("adress is required"),
 ];

@@ -1,11 +1,14 @@
 const User = require("../models/user");
 const jwt = require("jsonwebtoken");
-const expressJwt = require("express-jwt");
+
 const _ = require("lodash");
 const { OAuth2Client } = require("google-auth-library");
 const fetch = require("node-fetch");
 const { sendEmailWithNodemailer } = require("../helpers/email");
 
+exports.test = (req, res) => {
+  res.send({ message: "work" });
+};
 //signup controller
 exports.signup = (req, res) => {
   //destructuring the req.body object
@@ -291,4 +294,23 @@ exports.facebookLogin = (req, res) => {
         });
       })
   );
+};
+//get current user
+exports.loadUser = (req, res) => {
+  const { name, email, password, adress, phone, birthDate } = req.user;
+  const currentUser = { name, email, password, adress, phone, birthDate };
+  res.status(200).send({ msg: "load user  succ", user: currentUser });
+};
+exports.updateUser = async (req, res) => {
+  try {
+    const userupdate = req.body;
+    console.log(userupdate);
+    const result = await User.updateOne(
+      { _id: req.user._id },
+      { $set: { ...userupdate } }
+    );
+    res.status(200).send({ message: "update success" });
+  } catch (error) {
+    res.status(400).send("No user  exist with that ID");
+  }
 };

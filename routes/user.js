@@ -12,6 +12,8 @@ const {
   test,
   loadUser,
   updateUser,
+  loadAllUsers,
+  deleteUser,
 } = require("../controllers/user");
 //import validators
 const {
@@ -53,4 +55,6 @@ router.post(
   runValidation,
   updateUser
 );
+router.get("/users", admin, loadAllUsers);
+router.put("/user/delete", admin, deleteUser);
 module.exports = router;

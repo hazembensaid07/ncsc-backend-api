@@ -21,9 +21,14 @@ const restaurentSchema = new Schema({
     default: [],
     required: true,
   },
+  phone: {
+    type: String,
+    required: true,
+  },
   description: {
     type: String,
     max: 64,
+    required: true,
   },
   frenquent: { type: Number, default: 0, required: false },
 });

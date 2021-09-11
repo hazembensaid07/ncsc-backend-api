@@ -20,6 +20,11 @@ exports.signup = (req, res) => {
         error: "Email is taken",
       });
     }
+    if (user.blocked) {
+      return res.status(400).json({
+        error: "User is Blocked cannot access",
+      });
+    }
     // creating the user token
     const token = jwt.sign(
       { name, email, password, adress, phone, birthDate },
@@ -102,6 +107,11 @@ exports.signin = (req, res) => {
         error: "Email and password do not match",
       });
     }
+    if (user.blocked) {
+      return res.status(400).json({
+        error: "User is Blocked cannot access",
+      });
+    }
     // generate a token and send to client
     const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET, {
       expiresIn: "7d",
@@ -120,6 +130,11 @@ exports.forgotPassword = (req, res) => {
     if (err || !user) {
       return res.status(400).json({
         error: "User with that email does not exist",
+      });
+    }
+    if (user.blocked) {
+      return res.status(400).json({
+        error: "User is Blocked cannot access",
       });
     }
     //signing the token
@@ -200,6 +215,11 @@ exports.googleLogin = (req, res) => {
       const { email_verified, name, email } = response.payload;
       if (email_verified) {
         User.findOne({ email }).exec((err, user) => {
+          if (user.blocked) {
+            return res.status(400).json({
+              error: "User is Blocked cannot access",
+            });
+          }
           if (user) {
             const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET, {
               expiresIn: "7d",
@@ -255,6 +275,11 @@ exports.facebookLogin = (req, res) => {
       .then((response) => {
         const { email, name } = response;
         User.findOne({ email }).exec((err, user) => {
+          if (user.blocked) {
+            return res.status(400).json({
+              error: "User is Blocked cannot access",
+            });
+          }
           if (user) {
             const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET, {
               expiresIn: "7d",
@@ -310,6 +335,31 @@ exports.updateUser = async (req, res) => {
       { $set: { ...userupdate } }
     );
     res.status(200).send({ message: "update success" });
+  } catch (error) {
+    res.status(400).send("No user  exist with that ID");
+  }
+};
+exports.loadAllUsers = async (req, res) => {
+  try {
+    const result = await User.find();
+    const users = result.filter(function (el) {
+      return el.blocked !== true;
+    });
+    res.send({ response: users, message: "users found" });
+  } catch (error) {
+    res.status(400).send({ message: "can not get users" });
+  }
+};
+exports.deleteUser = async (req, res) => {
+  //blocking users by admin
+  try {
+    const id = req.body.id;
+    console.log(id);
+    const result = await User.updateOne(
+      { _id: id },
+      { $set: { blocked: true } }
+    );
+    res.status(200).send({ message: "block success" });
   } catch (error) {
     res.status(400).send("No user  exist with that ID");
   }

@@ -31,6 +31,10 @@ const userScheama = new mongoose.Schema(
       type: String,
       required: true,
     },
+    blocked: {
+      type: Boolean,
+      default: false,
+    },
     salt: String,
     role: {
       type: String,

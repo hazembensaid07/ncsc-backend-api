@@ -1,0 +1,401 @@
+{
+	"info": {
+		"_postman_id": "2d2ceb48-2da6-4555-a921-2ea396831efe",
+		"name": "ncsc",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "authentification",
+			"item": [
+				{
+					"name": "signup",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "authorization",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MTM1YmMzNGVhMmE4NjNkY2M2MGI0MDciLCJpYXQiOjE2MzEwMDE4ODUsImV4cCI6MTYzMTYwNjY4NX0.ML6pk2cYkQ2fsm_zgAUzcl8aooXIQwLbbiuL6POG2FI",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{     \"name\" : \"hazem\",\n\n      \"email\" : \"hazembensaid1h5@gmail.com\",\n      \"password\" : \"123456\",\n      \"adress\" : \"ariana\",\n      \"phone\" : \"53307672\",\n      \"brand\" :\"fbg\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/user/signup",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"user",
+								"signup"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "account activation",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"token\" : \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiaGF6ZW0iLCJlbWFpbCI6ImhhemVtYmVuc2FpZDE5NUBnbWFpbC5jb20iLCJwYXNzd29yZCI6IjEyMzQ1NiIsImFkcmVzcyI6ImFyaWFuYWVzc29naHJhIiwicGhvbmUiOiI1MzMwNzY3MiIsImJpcnRoRGF0ZSI6IjA2LzA2LzE5OTkiLCJpYXQiOjE2MzA5MTEyODMsImV4cCI6MTYzMTUxNjA4M30.xC3C4MBXTQHyf5ibqwa1gOIq3rF2JAc9Q3sS3bOnMd8\"}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/user/account-activation",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"user",
+								"account-activation"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "sign in",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\" : \"hazembensaid195@gmail.com\",\r\n    \"password\" : \"123456\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/user/signin",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"user",
+								"signin"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "forgot password",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{ \"email\" : \"hazembensaid195@gmail.com\"}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/user/forgot-password",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"user",
+								"forgot-password"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "reset password",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"newPassword\" : \"123456\",\r\n \"resetPasswordLink\" : \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MTM1YmMzNGVhMmE4NjNkY2M2MGI0MDciLCJuYW1lIjoiaGF6ZW0iLCJpYXQiOjE2MzA5MTQ2NjUsImV4cCI6MTYzMDkxNTI2NX0.FZdrJJO11hNc6q7w_TG2o-GQ5C_AUweLaEri5sraYtM\"\r\n\r\n\r\n\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/user/reset-password",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"user",
+								"reset-password"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "user middleware",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiaGF6ZW0iLCJlbWFpbCI6ImhhemVtYmVuc2FpZDE5NUBnbWFpbC5jb20iLCJwYXNzd29yZCI6IjEyMzQ1NiIsImFkcmVzcyI6ImFyaWFuYWVzc29naHJhIiwicGhvbmUiOiI1MzMwNzY3MiIsImJpcnRoRGF0ZSI6IjA2LzA2LzE5OTkiLCJpYXQiOjE2MzA5MTEyODMsImV4cCI6MTYzMTUxNjA4M30.xC3C4MBXTQHyf5ibqwa1gOIq3rF2JAc9Q3sS3bOnMd8",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"token\" : \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiaGF6ZW0iLCJlbWFpbCI6ImhhemVtYmVuc2FpZDE5NUBnbWFpbC5jb20iLCJwYXNzd29yZCI6IjEyMzQ1NiIsImFkcmVzcyI6ImFyaWFuYWVzc29naHJhIiwicGhvbmUiOiI1MzMwNzY3MiIsImJpcnRoRGF0ZSI6IjA2LzA2LzE5OTkiLCJpYXQiOjE2MzA5MTEyODMsImV4cCI6MTYzMTUxNjA4M30.xC3C4MBXTQHyf5ibqwa1gOIq3rF2JAc9Q3sS3bOnMd8\"}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/go",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"go"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "admin middleware",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "authorization",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MTM1YmMzNGVhMmE4NjNkY2M2MGI0MDciLCJpYXQiOjE2MzEwMDE4ODUsImV4cCI6MTYzMTYwNjY4NX0.ML6pk2cYkQ2fsm_zgAUzcl8aooXIQwLbbiuL6POG2FI",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:5000/api/goo",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"goo"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "loadUser",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "authorization",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MTM1YmMzNGVhMmE4NjNkY2M2MGI0MDciLCJpYXQiOjE2MzEwMDE4ODUsImV4cCI6MTYzMTYwNjY4NX0.ML6pk2cYkQ2fsm_zgAUzcl8aooXIQwLbbiuL6POG2FI",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:5000/api/user/loadprofile",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"user",
+								"loadprofile"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "booking",
+			"item": [
+				{
+					"name": "add booking",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "authorization",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MWM0MmFkMDYzYTM5MjMzOTgyYTI1OTIiLCJpYXQiOjE2NDAyNDYwNjIsImV4cCI6MTY0MDg1MDg2Mn0.F56xE2TzqYjFTXhG7KG2XTG5A6WuVHd-TW2yqtT81Y0",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{ \"tel\" : \"53307672\",\n  \"room\" : 3,\n  \"emails\" : [\"hazembensaid195gmail.com\",\"hazembensaid19@mail.com\",\"hazembensaid195@gmail.com\"],\n  \"transport_emails\" : [\"hazembensaid195@gmail.com\",\"hazembensaid1@gmail.com\",\"hazembensaid195@gmail.com\"]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/booking/add",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"booking",
+								"add"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "load booking",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "authorization",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MWM0MmFkMDYzYTM5MjMzOTgyYTI1OTIiLCJpYXQiOjE2NDAyNDYwNjIsImV4cCI6MTY0MDg1MDg2Mn0.F56xE2TzqYjFTXhG7KG2XTG5A6WuVHd-TW2yqtT81Y0",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:5000/api/booking/one/61c44992f4c5c363f2d91091",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"booking",
+								"one",
+								"61c44992f4c5c363f2d91091"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "load all bookings",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": null
+					},
+					"response": []
+				},
+				{
+					"name": "load transport",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "authorization",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MWM0MmFkMDYzYTM5MjMzOTgyYTI1OTIiLCJpYXQiOjE2NDAyNDYwNjIsImV4cCI6MTY0MDg1MDg2Mn0.F56xE2TzqYjFTXhG7KG2XTG5A6WuVHd-TW2yqtT81Y0",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:5000/api/booking/transport",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"booking",
+								"transport"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get rooms per category",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "authorization",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MWM0MmFkMDYzYTM5MjMzOTgyYTI1OTIiLCJpYXQiOjE2NDAyNDYwNjIsImV4cCI6MTY0MDg1MDg2Mn0.F56xE2TzqYjFTXhG7KG2XTG5A6WuVHd-TW2yqtT81Y0",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:5000/api/booking/rooms",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"booking",
+								"rooms"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

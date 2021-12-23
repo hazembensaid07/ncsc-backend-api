@@ -2,7 +2,7 @@ const User = require("../models/user");
 const jwt = require("jsonwebtoken");
 
 const _ = require("lodash");
-const { OAuth2Client } = require("google-auth-library");
+
 const fetch = require("node-fetch");
 const { sendEmailWithNodemailer } = require("../helpers/email");
 
@@ -12,7 +12,7 @@ exports.test = (req, res) => {
 //signup controller
 exports.signup = (req, res) => {
   //destructuring the req.body object
-  const { name, email, password, adress, phone, birthDate } = req.body;
+  const { name, email, password, university, phone,} = req.body;
   // checking if the user eixsts or not
   User.findOne({ email }).exec((err, user) => {
     if (user) {
@@ -20,14 +20,10 @@ exports.signup = (req, res) => {
         error: "Email is taken",
       });
     }
-    if (user.blocked) {
-      return res.status(400).json({
-        error: "User is Blocked cannot access",
-      });
-    }
+   
     // creating the user token
     const token = jwt.sign(
-      { name, email, password, adress, phone, birthDate },
+      { name, email, password, university, phone},
       process.env.JWT_ACCOUNT_ACTIVATION,
       { expiresIn: "7d" }
     );
@@ -66,16 +62,16 @@ exports.accountActivation = (req, res) => {
           });
         }
         //decoding the token to get the user parameters
-        const { name, email, password, adress, phone, birthDate } =
+        const { name, email, password, university, phone } =
           jwt.decode(token);
         //creating a new user object (the password will be hashed in this phase using the functions declared int he user Schema)
         const user = new User({
           name,
           email,
           password,
-          adress,
+          university,
           phone,
-          birthDate,
+         
         });
         // saving the user to the DB
         user.save((err, user) => {
@@ -107,11 +103,7 @@ exports.signin = (req, res) => {
         error: "Email and password do not match",
       });
     }
-    if (user.blocked) {
-      return res.status(400).json({
-        error: "User is Blocked cannot access",
-      });
-    }
+  
     // generate a token and send to client
     const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET, {
       expiresIn: "7d",
@@ -132,11 +124,7 @@ exports.forgotPassword = (req, res) => {
         error: "User with that email does not exist",
       });
     }
-    if (user.blocked) {
-      return res.status(400).json({
-        error: "User is Blocked cannot access",
-      });
-    }
+  
     //signing the token
     const token = jwt.sign(
       { _id: user._id, name: user.name },
@@ -152,7 +140,7 @@ exports.forgotPassword = (req, res) => {
       subject: `Password Reset link`,
       html: `
                 <h1>Please use the following link to reset your password</h1>
-                <p>${token}</p>
+                <p>linkoffrontend/${token}</p>
                 <hr />
                 <p>This email may contain sensetive information</p>
                 <p></p>
@@ -202,165 +190,21 @@ exports.resetPassword = (req, res) => {
     );
   }
 };
-//creating a google auth client
-const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
-exports.googleLogin = (req, res) => {
-  //get the token
-  const { idToken } = req.body;
 
-  client
-    .verifyIdToken({ idToken, audience: process.env.GOOGLE_CLIENT_ID })
-    .then((response) => {
-      // console.log('GOOGLE LOGIN RESPONSE',response)
-      const { email_verified, name, email } = response.payload;
-      if (email_verified) {
-        User.findOne({ email }).exec((err, user) => {
-          if (user.blocked) {
-            return res.status(400).json({
-              error: "User is Blocked cannot access",
-            });
-          }
-          if (user) {
-            const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET, {
-              expiresIn: "7d",
-            });
-            const { _id, email, name, role } = user;
-            return res.json({
-              token,
-              user: { _id, email, name, role },
-            });
-          } else {
-            let password = email + process.env.JWT_SECRET;
-            user = new User({ name, email, password });
-            user.save((err, data) => {
-              if (err) {
-                console.log("ERROR GOOGLE LOGIN ON USER SAVE", err);
-                return res.status(400).json({
-                  error: "User signup failed with google",
-                });
-              }
-              const token = jwt.sign(
-                { _id: data._id },
-                process.env.JWT_SECRET,
-                { expiresIn: "7d" }
-              );
-              const { _id, email, name, role } = data;
-              return res.json({
-                token,
-                user: { _id, email, name, role },
-              });
-            });
-          }
-        });
-      } else {
-        return res.status(400).json({
-          error: "Google login failed. Try again",
-        });
-      }
-    });
-};
-//facebook login controller
-exports.facebookLogin = (req, res) => {
-  console.log("FACEBOOK LOGIN REQ BODY", req.body);
-  const { userID, accessToken } = req.body;
-
-  const url = `https://graph.facebook.com/v2.11/${userID}/?fields=id,name,email&access_token=${accessToken}`;
-
-  return (
-    fetch(url, {
-      method: "GET",
-    })
-      .then((response) => response.json())
-      // .then(response => console.log(response))
-      .then((response) => {
-        const { email, name } = response;
-        User.findOne({ email }).exec((err, user) => {
-          if (user.blocked) {
-            return res.status(400).json({
-              error: "User is Blocked cannot access",
-            });
-          }
-          if (user) {
-            const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET, {
-              expiresIn: "7d",
-            });
-            const { _id, email, name, role } = user;
-            return res.json({
-              token,
-              user: { _id, email, name, role },
-            });
-          } else {
-            let password = email + process.env.JWT_SECRET;
-            user = new User({ name, email, password });
-            user.save((err, data) => {
-              if (err) {
-                console.log("ERROR FACEBOOK LOGIN ON USER SAVE", err);
-                return res.status(400).json({
-                  error: "User signup failed with facebook",
-                });
-              }
-              const token = jwt.sign(
-                { _id: data._id },
-                process.env.JWT_SECRET,
-                { expiresIn: "7d" }
-              );
-              const { _id, email, name, role } = data;
-              return res.json({
-                token,
-                user: { _id, email, name, role },
-              });
-            });
-          }
-        });
-      })
-      .catch((error) => {
-        res.json({
-          error: "Facebook login failed. Try later",
-        });
-      })
-  );
-};
 //get current user
 exports.loadUser = (req, res) => {
-  const { name, email, password, adress, phone, birthDate } = req.user;
-  const currentUser = { name, email, password, adress, phone, birthDate };
+  const { name, email, password, university, phone } = req.user;
+  const currentUser = { name, email, password, phone, university };
   res.status(200).send({ msg: "load user  succ", user: currentUser });
 };
-exports.updateUser = async (req, res) => {
-  try {
-    const userupdate = req.body;
-    console.log(userupdate);
-    const result = await User.updateOne(
-      { _id: req.user._id },
-      { $set: { ...userupdate } }
-    );
-    res.status(200).send({ message: "update success" });
-  } catch (error) {
-    res.status(400).send("No user  exist with that ID");
-  }
-};
+
 exports.loadAllUsers = async (req, res) => {
   try {
     const result = await User.find();
-    const users = result.filter(function (el) {
-      return el.blocked !== true;
-    });
-    res.send({ response: users, message: "users found" });
+    
+    res.send({ response: result, message: "users found" });
   } catch (error) {
     res.status(400).send({ message: "can not get users" });
   }
 };
-exports.deleteUser = async (req, res) => {
-  //blocking users by admin
-  try {
-    const id = req.body.id;
-    console.log(id);
-    const result = await User.updateOne(
-      { _id: id },
-      { $set: { blocked: true } }
-    );
-    res.status(200).send({ message: "block success" });
-  } catch (error) {
-    res.status(400).send("No user  exist with that ID");
-  }
-};
+

@@ -7,18 +7,13 @@ const {
   signin,
   forgotPassword,
   resetPassword,
-  googleLogin,
-  facebookLogin,
   test,
   loadUser,
-  updateUser,
   loadAllUsers,
-  deleteUser,
 } = require("../controllers/user");
 //import validators
 const {
   userSignupValidator,
-  userUpdateValidator,
   userSigninValidator,
   forgotPasswordValidator,
   resetPasswordValidator,
@@ -41,20 +36,11 @@ router.put(
   runValidation,
   resetPassword
 );
-router.post("/user/google-login", googleLogin);
-router.post("/user/facebook-login", facebookLogin);
+
 //the current user is saved in req.user
 router.post("/go", isAuth, test);
 router.post("/goo", admin, test);
 router.get("/user/loadprofile", isAuth, loadUser);
-router.post(
-  "/user/updateprofile",
-
-  isAuth,
-  userUpdateValidator,
-  runValidation,
-  updateUser
-);
 router.get("/users", admin, loadAllUsers);
-router.put("/user/delete", admin, deleteUser);
+
 module.exports = router;

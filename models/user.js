@@ -21,19 +21,15 @@ const userScheama = new mongoose.Schema(
       type: String,
       required: true,
     },
-    birthDate: {
-      type: Date,
-    },
-    adress: {
-      type: String,
-    },
+    
+   
     phone: {
       type: String,
       required: true,
     },
-    blocked: {
-      type: Boolean,
-      default: false,
+    university: {
+      type: String,
+      required: true,
     },
     salt: String,
     role: {

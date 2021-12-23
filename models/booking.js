@@ -2,15 +2,34 @@ const mongoose = require("mongoose");
 const { Schema, model } = mongoose;
 
 const bookingSchema = new Schema({
-  // full date with hours and minutes
-  date: {
-    type: Date,
+  id_maker: {
+    type:   mongoose.Schema.Types.ObjectId,
+    trim: true,
+    required: true,
+   
+  },
+  tel: {
+    type: String,
     required: true,
   },
-  persons: {
+  room: {
+    type: Number,
+    required: true,
+  },
+ emails: {
+    type: Array,
+    default: [],
+    required: true,
+  },
+  transport_emails: {
+    type: Array,
+    default: [],
+    required: true,
+  },
+  transport_number: {
     type: Number,
     required: true,
   },
 });
 
-module.exports = Booking = model(" booking", bookingSchema);
+module.exports =Booking = model("booking", bookingSchema);

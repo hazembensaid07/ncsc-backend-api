@@ -16,7 +16,8 @@ app.use(express.json());
 app.use(cors());
 // router
 app.use(`${api()}`, require("./routes/user"));
-app.use(`${api()}`, require("./routes/restaurent"));
+app.use(`${api()}`, require("./routes/booking"));
+
 
 const PORT = process.env.PORT;
 // linkin the server to the port

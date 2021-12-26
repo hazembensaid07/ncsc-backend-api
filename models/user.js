@@ -4,11 +4,40 @@ const crypto = require("crypto");
 // user schema
 const userScheama = new mongoose.Schema(
   {
-    name: {
+      firstName: {
       type: String,
       trim: true,
       required: true,
       max: 32,
+    },
+    
+     lastName: {
+      type: String,
+      trim: true,
+      required: true,
+      max: 32,
+    },
+    CIN:{
+      type:String,
+      required:true,
+      max: 8,
+    },
+    socialLink: {
+      type:String,
+      required:true,
+    },
+    birthDate : {
+      type : String,
+      required :true,
+    },
+    address: {
+      type:String,
+      required:true,
+    },
+    
+    studyField:{
+      type:String,
+      required:true,
     },
     email: {
       type: String,

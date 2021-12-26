@@ -12,7 +12,7 @@ exports.test = (req, res) => {
 //signup controller
 exports.signup = (req, res) => {
   //destructuring the req.body object
-  const { name, email, password, university, phone,} = req.body;
+  const { firstName, lastName, CIN,socialLink,address,studyField,birthDate,email, password, university, phone} = req.body;
   // checking if the user eixsts or not
   User.findOne({ email }).exec((err, user) => {
     if (user) {
@@ -23,7 +23,7 @@ exports.signup = (req, res) => {
    
     // creating the user token
     const token = jwt.sign(
-      { name, email, password, university, phone},
+      { firstName, lastName, CIN,socialLink,address,birthDate,studyField ,email, password, university, phone},
       process.env.JWT_ACCOUNT_ACTIVATION,
       { expiresIn: "7d" }
     );
@@ -62,17 +62,10 @@ exports.accountActivation = (req, res) => {
           });
         }
         //decoding the token to get the user parameters
-        const { name, email, password, university, phone } =
+        const  { firstName, lastName, CIN,birthDate,socialLink,address,studyField,email, password, university, phone}=
           jwt.decode(token);
         //creating a new user object (the password will be hashed in this phase using the functions declared int he user Schema)
-        const user = new User({
-          name,
-          email,
-          password,
-          university,
-          phone,
-         
-        });
+        const user = new User( { firstName, lastName, birthDate,CIN,socialLink,address,studyField,email, password, university, phone});
         // saving the user to the DB
         user.save((err, user) => {
           return res.json({
@@ -80,6 +73,7 @@ exports.accountActivation = (req, res) => {
             token: token,
           });
         });
+        console.log("ddd")
       }
     );
   } else {
@@ -88,6 +82,7 @@ exports.accountActivation = (req, res) => {
     });
   }
 };
+
 exports.signin = (req, res) => {
   const { email, password } = req.body;
   // check if user exists or not
@@ -193,8 +188,8 @@ exports.resetPassword = (req, res) => {
 
 //get current user
 exports.loadUser = (req, res) => {
-  const { name, email, password, university, phone } = req.user;
-  const currentUser = { name, email, password, phone, university };
+  const { firstName, lastName, CIN,socialLink,address,studyField,birthDate,email, password, university, phone} = req.user;
+  const currentUser ={ firstName, lastName, CIN,socialLink,address,studyField,birthDate,email, password, university, phone};
   res.status(200).send({ msg: "load user  succ", user: currentUser });
 };
 

@@ -12,6 +12,6 @@ const {
    router.get("/booking/one/:id",isAuth,loadBooking)
    router.get("/booking/transport",admin,Transportplaces)
    router.get("/booking/rooms",admin,getRooms)
-
-
+  
+  
 module.exports = router;

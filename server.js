@@ -17,6 +17,7 @@ app.use(cors());
 // router
 app.use(`${api()}`, require("./routes/user"));
 app.use(`${api()}`, require("./routes/booking"));
+app.use(`${api()}`, require("./routes/contact"));
 
 
 const PORT = process.env.PORT;

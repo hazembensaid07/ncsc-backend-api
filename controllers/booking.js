@@ -2,18 +2,27 @@ const Booking= require("../models/booking");
 
 
 exports.addbooking = async (req, res) => {
-    try {
+    try { 
       const {tel,room,emails,transport_emails}=req.body
-     
-      const id_maker=req.user._id
-      const transport_number=transport_emails.length;
-      const booking={tel,room,emails,transport_emails,id_maker,transport_number}
-      const book = new Booking(booking);
-      const response = await book.save();
-      res.status(200).send({ message: "booking added with success" });
-    } catch (error) {
+      const uniqueSet = new Set(emails);
+      const se=new Set(transport_emails)
+      const arr=[...se];
+      const backToArray = [...uniqueSet];
+      if(arr.length!=transport_emails.length) {
+      res.status(400).send({error: "emails _transport duplication"});}
+      if  (backToArray.length!=emails.length) {
+       res.status(400).send({error: "emails duplication"});}
 
-      res.status(400).send(error,"can not save it");
+      else { 
+        const id_maker=req.user._id
+        const transport_number=transport_emails.length;
+        const booking={tel,room,emails,transport_emails,id_maker,transport_number}
+        const book = new Booking(booking);
+        const response = await book.save();
+        res.status(200).send({ message: "booking added with success" });}}
+    catch (error) {
+
+       res.status(400).send("can not save it");
     }
   };
   exports.loadBooking= async (req, res) => {
@@ -70,4 +79,6 @@ exports.addbooking = async (req, res) => {
       res.status(400).send({ message: "can not get rooms" });
     }
   };
+ 
+  
   

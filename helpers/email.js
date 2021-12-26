@@ -7,8 +7,8 @@ exports.sendEmailWithNodemailer = (req, res, emailData) => {
     secure: false,
     requireTLS: true,
     auth: {
-      user: "magicmeal63@gmail.com", // MAKE SURE THIS EMAIL IS YOUR GMAIL FOR WHICH YOU GENERATED APP PASSWORD
-      pass: "hazemmaths12345", // MAKE SURE THIS PASSWORD IS YOUR GMAIL APP PASSWORD WHICH YOU GENERATED EARLIER
+      user: "ncsc.booking@gmail.com", // MAKE SURE THIS EMAIL IS YOUR GMAIL FOR WHICH YOU GENERATED APP PASSWORD
+      pass: "hazem12345", // MAKE SURE THIS PASSWORD IS YOUR GMAIL APP PASSWORD WHICH YOU GENERATED EARLIER
     },
     tls: {
       rejectUnauthorized: false,
@@ -18,7 +18,7 @@ exports.sendEmailWithNodemailer = (req, res, emailData) => {
   return transporter
     .sendMail(emailData)
     .then((info) => {
-      console.log(`Message sent: ${info.response}`);
+
       return res.json({
         message: `Email has been sent to your email. Follow the instruction `,
       });

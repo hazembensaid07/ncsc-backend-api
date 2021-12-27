@@ -10,14 +10,28 @@ exports.addbooking = async (req, res) => {
       const arr1=[...se_phones]
       const arr=[...se];
       const backToArray = [...uniqueSet];
+      const book = await Booking.find().select("emails");
+  
+     
       if(arr.length!=transport_emails.length) {
       res.status(400).send({error: "emails _transport duplication"});}
       if  (backToArray.length!=emails.length) {
        res.status(400).send({error: "emails duplication"});}
        if  (arr1.length!=transport_phones.length) {
         res.status(400).send({error: "phones duplication"});}
+      
 
-      else { 
+      else { let a =true;
+        for (let i=0;i< emails.length;i++) 
+        { 
+          for (let j=0 ;j < book.length;j++)
+          {
+           if( book[j].emails.includes(emails[i]))  {a=false}
+           }
+          }
+         
+        if(!a) { res.status(400).send({error: "email exists in a booking , try to put correct emails"})}
+        else{
         const id_maker=req.user._id
         const transport_number=transport_emails.length;
         const booking={transport_phones,room,emails,transport_emails,id_maker,transport_number}
@@ -26,7 +40,7 @@ exports.addbooking = async (req, res) => {
         res.status(200).send({ message: "booking added with success" });}
         let result = await Hotel.find();
        
-        result[0].rooms-=1;
+        result[0].rooms-=emails.length;
        
         result[0].transport-=transport_emails.length
       
@@ -34,7 +48,7 @@ exports.addbooking = async (req, res) => {
           { _id: result[0]._id },
           { $set: { ...result[0] } }
         );
-      }
+      }}
        
     catch (error) {
 
@@ -48,6 +62,24 @@ exports.addbooking = async (req, res) => {
         const id = req.params.id;
         //lauch findById query
         const result = await Booking.findById(id);
+    
+        if (!result) {
+          res.status(400).send({ msg: "there is no booking  " });
+          return;
+        } else {
+          res.status(200).send({ message: "booking   found ", result });
+        }
+      } catch (error) {
+        res.status(400).send({ message: "try later cannot respond" });
+      }
+  };
+  exports.loadBookingByUserId= async (req, res) => {
+   
+    try {
+        //get the id from params
+        const id = req.user._id
+        //lauch findById query
+        const result = await Booking.find({id_maker :id});
     
         if (!result) {
           res.status(400).send({ msg: "there is no booking  " });

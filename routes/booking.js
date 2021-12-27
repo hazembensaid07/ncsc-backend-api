@@ -1,6 +1,8 @@
 const express = require("express");
 const router = express.Router();
-const {addbooking,loadBookings,loadBooking,Transportplaces,getRooms}=require("../controllers/booking")
+const {addbooking,loadBookings,loadBooking,Transportplaces,getRooms,getAvailableRooms_Transport,addAvailableRooms_Transport}=require("../controllers/booking")
+
+const {hotelValidator}=require("../validators/hotel")
 const { admin, isAuth } = require("../middlewares/SignIn");
 const {
    bookingValidator 
@@ -12,6 +14,8 @@ const {
    router.get("/booking/one/:id",isAuth,loadBooking)
    router.get("/booking/transport",admin,Transportplaces)
    router.get("/booking/rooms",admin,getRooms)
+   router.get("/booking/available",isAuth,getAvailableRooms_Transport)
+    router.post("/booking/add_available",admin,hotelValidator,addAvailableRooms_Transport)
   
   
 module.exports = router;

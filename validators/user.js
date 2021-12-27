@@ -14,11 +14,7 @@ exports.userSignupValidator = [
   .isEmpty()
   .isLength({ min: 8, max:8 })
   .withMessage("cin  is required and must be valid"),
-  check("phone")
-    .not()
-    .isEmpty()
-    .isLength({ min: 6 })
-    .withMessage("phone is required"),
+  
     check("socialLink").not().isEmpty().withMessage("socialLink is required"),
     check("address").not().isEmpty().withMessage("address is required"),
     check("studyField").not().isEmpty().withMessage("studyField is required"),

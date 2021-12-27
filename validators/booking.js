@@ -5,7 +5,7 @@ exports.bookingValidator = [
 
   check("emails.*").isEmail().withMessage("Must be a valid email address"),
   check("transport_emails.*").isEmail().withMessage("Must be a valid email address"),
-  check("tel")
+  check("transport_phones.*")
     .not()
     .isEmpty()
     .isLength({ min: 8})

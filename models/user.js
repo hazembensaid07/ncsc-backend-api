@@ -54,7 +54,7 @@ const userScheama = new mongoose.Schema(
    
     phone: {
       type: String,
-      required: true,
+      default: ""
     },
     university: {
       type: String,

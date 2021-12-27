@@ -8,10 +8,7 @@ const bookingSchema = new Schema({
     required: true,
    
   },
-  tel: {
-    type: String,
-    required: true,
-  },
+  
   room: {
     type: Number,
     required: true,
@@ -22,6 +19,11 @@ const bookingSchema = new Schema({
     required: true,
   },
   transport_emails: {
+    type: Array,
+    default: [],
+    required: true,
+  },
+  transport_phones: {
     type: Array,
     default: [],
     required: true,

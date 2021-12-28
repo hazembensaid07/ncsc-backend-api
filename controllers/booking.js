@@ -70,7 +70,7 @@ exports.addbooking = async (req, res) => {
         //get the id from params
         const email = req.user.email
         //lauch findById query
-        const result = await Booking.find({emails: email});
+        const result = await Booking.findOne({emails: email});
     
         if (!result) {
           res.status(400).send({ msg: "there is no booking  " });

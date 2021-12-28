@@ -26,10 +26,19 @@ exports.addbooking = async (req, res) => {
        if(transport==="yes")
       {booking={ id_maker,room,transport_number:emails.length,transport,emails,phones,transport}}
       else { booking={ id_maker,room,transport,emails,phones,transport}}
-
+     
       const book = new Booking(booking);
       const response = await book.save();
-      res.status(200).send({ message: "booking  added with success" });
+      const r= await Hotel.find();
+
+      const psu = await Hotel.updateOne(
+        { _id: r[0]._id},
+        { $set: {rooms: r[0].rooms-=emails.length ,
+                 transport: r[0].transport-=emails.length} }
+      )
+      
+    
+      res.status(200).send({  message: "booking  added with success" });
     }
        
     catch (error) {

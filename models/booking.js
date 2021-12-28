@@ -18,19 +18,20 @@ const bookingSchema = new Schema({
     default: [],
     required: true,
   },
-  transport_emails: {
+ 
+  phones: {
     type: Array,
     default: [],
     required: true,
   },
-  transport_phones: {
-    type: Array,
-    default: [],
+  transport: {
+    type: String,
     required: true,
   },
   transport_number: {
     type: Number,
-    required: true,
+    default : 0,
+  
   },
  
 });

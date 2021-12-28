@@ -77,7 +77,7 @@ exports.accountActivation = (req, res) => {
       }
     );
   } else {
-    return res.json({
+    return res.status(400).json({
       message: "Something went wrong. Try again.",
     });
   }
@@ -188,8 +188,8 @@ exports.resetPassword = (req, res) => {
 
 //get current user
 exports.loadUser = (req, res) => {
-  const { firstName, lastName, CIN,socialLink,address,studyField,birthDate,email, password, university, phone} = req.user;
-  const currentUser ={ firstName, lastName, CIN,socialLink,address,studyField,birthDate,email, password, university, phone};
+  const { firstName, lastName, CIN,socialLink,address,studyField,birthDate,email,university, phone} = req.user;
+  const currentUser ={ firstName, lastName, CIN,socialLink,address,studyField,birthDate,email, university, phone};
   res.status(200).send({ msg: "load user  succ", user: currentUser });
 };
 

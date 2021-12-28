@@ -65,15 +65,21 @@ const userScheama = new mongoose.Schema(
       type: String,
       default: "customer",
     },
+    booking: {
+      type: Boolean,
+      default: "false",
+    },
     resetPasswordLink: {
       data: String,
       default: "",
     },
-    booking_id : {
+   roomMates : [{
       type : mongoose.Schema.Types.ObjectId,
-      ref : 'Booking',
-     default: "",
-    } ,
+      ref : 'User',
+      
+    } ] ,
+  
+    
   
   },
   { timestamps: true }

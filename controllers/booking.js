@@ -1,54 +1,36 @@
 const Booking= require("../models/booking");
-
+const User=require("../models/user")
 const Hotel=require("../models/hotel")
+const Request=require("../models/request")
 exports.addbooking = async (req, res) => {
-    try { 
-      const {transport_phones,room,emails,transport_emails}=req.body
-      const uniqueSet = new Set(emails);
-      const se=new Set(transport_emails)
-      const se_phones=new Set(transport_phones)
-      const arr1=[...se_phones]
-      const arr=[...se];
-      const backToArray = [...uniqueSet];
-      const book = await Booking.find().select("emails");
-  
+    try { //transport  yes or no
+      const {room,transport}=req.body
+      id_maker=req.user._id
+    let phones=[]
+      let  emails=[]
+      const result = await User.findById(id_maker).populate('roomMates').select("email,phone")
      
-      if(arr.length!=transport_emails.length) {
-      res.status(400).send({error: "emails _transport duplication"});}
-      if  (backToArray.length!=emails.length) {
-       res.status(400).send({error: "emails duplication"});}
-       if  (arr1.length!=transport_phones.length) {
-        res.status(400).send({error: "phones duplication"});}
       
+      result.roomMates.map(async(el)=> {phones.push(el.phone);
 
-      else { let a =true;
-        for (let i=0;i< emails.length;i++) 
-        { 
-          for (let j=0 ;j < book.length;j++)
-          {
-           if( book[j].emails.includes(emails[i]))  {a=false}
-           }
-          }
-         
-        if(!a) { res.status(400).send({error: "email exists in a booking , try to put correct emails"})}
-        else{
-        const id_maker=req.user._id
-        const transport_number=transport_emails.length;
-        const booking={transport_phones,room,emails,transport_emails,id_maker,transport_number}
-        const book = new Booking(booking);
-        const response = await book.save();
-        res.status(200).send({ message: "booking added with success" });}
-        let result = await Hotel.find();
-       
-        result[0].rooms-=emails.length;
-       
-        result[0].transport-=transport_emails.length
-      
-        const resul = await Hotel.updateOne(
-          { _id: result[0]._id },
-          { $set: { ...result[0] } }
-        );
-      }}
+      emails.push(el.email);
+      const resu = await User.updateOne(
+        { _id: el._id},
+        { $set: { booking : true } }
+      );})
+      const resu = await User.updateOne(
+        { _id: id_maker},
+        { $set: { booking : true } }
+      )
+      let booking={}
+       if(transport==="yes")
+      {booking={ id_maker,room,transport_number:emails.length,transport,emails,phones,transport}}
+      else { booking={ id_maker,room,transport,emails,phones,transport}}
+
+      const book = new Booking(booking);
+      const response = await book.save();
+      res.status(200).send({ message: "booking  added with success" });
+    }
        
     catch (error) {
 
@@ -73,13 +55,13 @@ exports.addbooking = async (req, res) => {
         res.status(400).send({ message: "try later cannot respond" });
       }
   };
-  exports.loadBookingByUserId= async (req, res) => {
+  exports.loadBookingByUserEmail= async (req, res) => {
    
     try {
         //get the id from params
-        const id = req.user._id
+        const email = req.user.email
         //lauch findById query
-        const result = await Booking.find({id_maker :id});
+        const result = await Booking.find({emails: email});
     
         if (!result) {
           res.status(400).send({ msg: "there is no booking  " });
@@ -95,6 +77,7 @@ exports.addbooking = async (req, res) => {
   exports.loadBookings= async (req, res) => {
     try {
       const result = await Booking.find();
+     
       
       res.status(200).send({ response: result, message: "bookings  found" });
     } catch (error) {
@@ -147,3 +130,32 @@ exports.addbooking = async (req, res) => {
       res.status(400).send("can not save it");
     }
   }
+  exports.deleteBooking= async (req, res) => {
+    try {
+      const id_maker=req.user.id
+      const emailSender=req.user.email
+      const result = await Booking.deleteOne({ id_maker: id_maker });
+      const resul= await Request.deleteOne({ emailSender: emailSender });
+      
+            
+           
+     
+     req.user.roomMates.map(async(el) => {
+      const user= await User.findById(el)
+      const resu = await User.updateOne(
+        { _id: el},
+        { $set: { booking : false } }
+      );
+     })
+      const resu = await User.updateOne(
+          { _id: req.user._id },
+          { $set: { booking : false,
+                    roomMates: []} }
+        );
+     
+      
+      res.status(200).send({message: "booking deleted" });
+    } catch (error) {
+      res.status(400).send({ message: "can not get bookings" });
+    }
+  };

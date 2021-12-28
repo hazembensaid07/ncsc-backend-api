@@ -18,6 +18,7 @@ exports.addbooking = async (req, res) => {
         { _id: el._id},
         { $set: { booking : true } }
       );})
+      emails.push(req.user.email)
       const resu = await User.updateOne(
         { _id: id_maker},
         { $set: { booking : true } }

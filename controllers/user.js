@@ -190,7 +190,7 @@ exports.resetPassword = (req, res) => {
 exports.loadUser = async(req, res) => {
   const { firstName, lastName, CIN,socialLink,address,studyField,birthDate,email,university, phone} = req.user;
   const user=await User.findById(req.user._id).populate('roomMates')
-  const currentUser ={ firstName, lastName, CIN,socialLink,address,studyField,birthDate,email, university, phone};
+ 
   res.status(200).send({ msg: "load user  succ", user:user});
 };
 

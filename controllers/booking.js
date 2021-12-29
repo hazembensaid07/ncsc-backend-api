@@ -88,7 +88,7 @@ exports.addbooking = async (req, res) => {
   exports.loadBookings= async (req, res) => {
     try {
       const result = await Booking.find();
-     
+      
       
       res.status(200).send({ response: result, message: "bookings  found" });
     } catch (error) {

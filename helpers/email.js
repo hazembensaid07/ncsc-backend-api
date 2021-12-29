@@ -19,9 +19,9 @@ exports.sendEmailWithNodemailer = (req, res, emailData) => {
     .sendMail(emailData)
     .then((info) => {
 
-      return res.json({
+      return res.status(200).json({
         message: `Email has been sent to your email. Follow the instruction `,
       });
     })
-    .catch((err) => console.log(`Problem sending email: ${err}`));
+    .catch((err) => res.status(400).send("cannot send mail"));
 };

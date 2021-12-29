@@ -34,7 +34,7 @@ exports.signup = (req, res) => {
       subject: "ACCOUNT ACTIVATION LINK",
       html: `
                 <h1>Please use the following link to activate your account</h1>
-                <p>linkfrontend/${token}</p>
+                <p>linkFront/verify-email/${token}</p>
                 <hr />
                 <p>This email may contain sensitive information</p>
                 <p>http://localhost:3000</p>
@@ -135,7 +135,7 @@ exports.forgotPassword = (req, res) => {
       subject: `Password Reset link`,
       html: `
                 <h1>Please use the following link to reset your password</h1>
-                <p>linkoffrontend/${token}</p>
+                <p>linkFront/change-password/${token}</p>
                 <hr />
                 <p>This email may contain sensetive information</p>
                 <p></p>

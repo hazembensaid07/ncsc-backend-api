@@ -34,7 +34,7 @@ exports.signup = (req, res) => {
       subject: "ACCOUNT ACTIVATION LINK",
       html: `
                 <h1>Please use the following link to activate your account</h1>
-                <p>${token}</p>
+                <p>linkfrontend/${token}</p>
                 <hr />
                 <p>This email may contain sensitive information</p>
                 <p>http://localhost:3000</p>

@@ -18,24 +18,28 @@ exports.sendRequest =  (req, res) => {
                 return res.status(400).json({
                     error: "User is already booked in",
                   });
-              }
+              } 
               else {
-                  Request.findOne({emailReceiver,emailSender}).exec((err,request)=> {
+                  Request.findOne({Sender:req.user._id,Receiver: user._id}).exec((err,request)=> {
                       if(request ) {return res.status(400).json({
-                        error: "you have already sent a request to this user",
+                        error: "you have already sent a request to this userr",
                       });}
-                      else { const lastNameReceiver=user.lastName
-                        const firstNameReceiver=user.firstName
-                        const lastNameSender=req.user.lastName
-                        const firstNameSender=req.user.firstName
+                      else {   if(req.user.roomMates.includes(user.id)){
+                       return  res.status(400).json({
+                        error: "you have already sent a request to this user",
+                      });} 
+                      else { const Sender=req.user._id
+                             const Receiver=user._id
 
-                        const requet = new Request( {emailSender,emailReceiver,lastNameReceiver,firstNameReceiver,lastNameReceiver,firstNameReceiver,lastNameSender,firstNameSender});
+                        const requet = new Request( {Sender,Receiver});
                         requet.save((err, user) => {
                             return res.json({
                               message: "request added.",
                               
                             });
                           });
+                      }
+                         
                       }
                   } )
               }
@@ -44,8 +48,8 @@ exports.sendRequest =  (req, res) => {
   };
   exports.getsendedRequest =  async(req, res) => {
   
-   try {const emailSender=req.user.email
-    const result= await Request.find({emailSender: emailSender})
+   try {const id=req.user._id
+    const result= await Request.find({Sender:id}).populate("Sender").populate("Receiver")
     
     res.status(200).send({result,msg :"requests loaded with success"})
        
@@ -58,8 +62,8 @@ exports.sendRequest =  (req, res) => {
 };
 exports.getReceivedRequest =  async(req, res) => {
   
-    try {const emailReceiver=req.user.email
-     const result= await Request.find({emailReceiver: emailReceiver})
+    try {const id=req.user._id
+     const result= await Request.find({ Receiver:id}).populate("Sender").populate("Receiver")
      res.status(200).send({result,msg :"requests loaded with success"})
         
     } catch (error) {
@@ -71,25 +75,21 @@ exports.getReceivedRequest =  async(req, res) => {
  };
  exports.acceptRequest=async (req,res)=> {
      try {
-         const {id}=req.body
+            const {id}=req.body
       
-         const result = await Request.findById(id)
-        
-        
-           
-              const resul = await Request.updateOne(
-                { _id: id },
-                { $set: { status : "accepted" } }
-              );
-          
-             const user= await User.findOne(({email: result.emailSender}))
-            
-           
+            const result = await Request.findById(id).populate("Sender").select('_id')
+            const user= await User.findOne(({email: result.Sender.email}))
             const newuser={...user , roomMates : user.roomMates.push(req.user._id)}
+            const receiveuser={...req.user,roomMates : req.user.roomMates.push(user._id)}
             const resu = await User.updateOne(
                 { _id: user._id },
                 { $set: { ...newuser } }
               );
+              const resuu= await User.updateOne(
+                { _id: req.user._id },
+                { $set: { ... receiveuser } }
+              );
+              const re= await Request.deleteOne({ _id: result._id });
               res.status(200).send({ message: "update success" });
         
         } catch (error) {
@@ -99,21 +99,13 @@ exports.getReceivedRequest =  async(req, res) => {
  }
  exports.refuseRequest=async (req,res)=> {
     try {
-        const {id}=req.body
-      
-        const result = await Request.findById(id)
-       
-        const newreq={...result , staus: "refused"}
-          
-             const resul = await Request.updateOne(
-               { _id: id },
-               { $set: { status: "refused"} }
-             );
-         
-             res.status(200).send({ message: "update success" });
+      const result = await Request.deleteOne({ _id: req.body.id });
+      result.n
+        ? res.status(200).send({ message: "Request  refused" })
+        : res.send("there is no request  with this id");
        
        } catch (error) {
-           res.status(400).send({error :"can not accept  request"})
+           res.status(400).send({error :"can not refuse  request"})
            
     }
 }

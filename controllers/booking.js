@@ -1,7 +1,7 @@
 const Booking= require("../models/booking");
 const User=require("../models/user")
 const Hotel=require("../models/hotel")
-const Request=require("../models/request")
+
 exports.addbooking = async (req, res) => {
     try { //transport  yes or no
       const {room,transport}=req.body
@@ -144,18 +144,12 @@ exports.addbooking = async (req, res) => {
   exports.deleteBooking= async (req, res) => {
     try {
       const id_maker=req.user.id
-      const emailSender=req.user.email
       const result = await Booking.deleteOne({ id_maker: id_maker });
-      const resul= await Request.deleteOne({ emailSender: emailSender });
-      
-            
-           
-     
-     req.user.roomMates.map(async(el) => {
-      const user= await User.findById(el)
+      req.user.roomMates.map(async(el) => {
       const resu = await User.updateOne(
         { _id: el},
-        { $set: { booking : false } }
+        { $set: { booking : false ,
+                  roomMates: []} }
       );
      })
       const resu = await User.updateOne(
@@ -163,9 +157,7 @@ exports.addbooking = async (req, res) => {
           { $set: { booking : false,
                     roomMates: []} }
         );
-     
-      
-      res.status(200).send({message: "booking deleted" });
+     res.status(200).send({message: "booking deleted" });
     } catch (error) {
       res.status(400).send({ message: "can not get bookings" });
     }

@@ -14,7 +14,7 @@ exports.signup = (req, res) => {
   //destructuring the req.body object
   const { firstName, lastName, CIN,socialLink,address,studyField,birthDate,email, password, university, phone} = req.body;
   // checking if the user eixsts or not
-  User.findOne({ email }).exec((err, user) => {
+  User.findOne({ email }).select('+hashed_password').exec((err, user) => {
     if (user) {
       return res.status(400).json({
         error: "Email is taken",
@@ -86,7 +86,7 @@ exports.accountActivation = (req, res) => {
 exports.signin = (req, res) => {
   const { email, password } = req.body;
   // check if user exists or not
-  User.findOne({ email }).exec((err, user) => {
+  User.findOne({ email }).select('+hashed_password').exec((err, user) => {
     if (err || !user) {
       return res.status(400).json({
         error: "User with that email does not exist. Please signup",
@@ -143,7 +143,7 @@ exports.forgotPassword = (req, res) => {
     };
     sendEmailWithNodemailer(req, res, emailData);
     return user.updateOne({ resetPasswordLink: token }, (err, success) => {});
-  });
+  }).select('+hashed_password');
 };
 //reset password controller
 exports.resetPassword = (req, res) => {
@@ -180,7 +180,7 @@ exports.resetPassword = (req, res) => {
               message: `Great! Now you can login with your new password`,
             });
           });
-        });
+        }).select('+hashed_password');
       }
     );
   }
@@ -196,7 +196,7 @@ exports.loadUser = async(req, res) => {
 
 exports.loadAllUsers = async (req, res) => {
   try {
-    const result = await User.find();
+    const result = await User.find().select("-hashed_password  -salt -__v");
     
     res.send({ response: result, message: "users found" });
   } catch (error) {

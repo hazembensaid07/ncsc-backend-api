@@ -49,7 +49,7 @@ const userScheama = new mongoose.Schema(
     hashed_password: {
       type: String,
       required: true,
-     
+      select: false
       
     },
     

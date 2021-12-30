@@ -63,6 +63,7 @@ const userScheama = new mongoose.Schema(
       required: true,
     },
     salt: String,
+     
     role: {
       type: String,
       default: "customer",

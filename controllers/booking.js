@@ -32,15 +32,24 @@ exports.addbooking = async (req, res) => {
       const book = new Booking(booking);
       const response = await book.save();
       const r= await Hotel.find();
-
-      const psu = await Hotel.updateOne(
+    if(emails.length==3)
+     { const psu = await Hotel.updateOne(
+        { _id: r[0]._id},
+        { $set: {rooms: r[0].rooms-=emails.length ,
+                 transport: r[0].transport-=emails.length,
+                 triple_rooms: r[0]. triple_rooms-=1} }
+      )
+      
+    
+      res.status(200).send({  message: "booking  added with success" }); }
+      else {const psu = await Hotel.updateOne(
         { _id: r[0]._id},
         { $set: {rooms: r[0].rooms-=emails.length ,
                  transport: r[0].transport-=emails.length} }
       )
       
     
-      res.status(200).send({  message: "booking  added with success" });
+      res.status(200).send({  message: "booking  added with success" });}
     }
        
     catch (error) {

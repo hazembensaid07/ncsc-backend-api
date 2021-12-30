@@ -14,6 +14,11 @@ const hotelSchema = new Schema({
    
     default: 150
   },
+  triple_rooms: {
+    type: Number,
+   
+    default: 20
+  },
  
 });
 

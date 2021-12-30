@@ -33,7 +33,8 @@ const bookingSchema = new Schema({
     default : 0,
   
   },
- 
-});
+
+},
+{ timestamps: true });
 
 module.exports =Booking = model("booking", bookingSchema);

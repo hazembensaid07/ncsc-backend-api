@@ -8,9 +8,6 @@ exports.bookingValidator = [
     .not()
     .isEmpty()
     .withMessage("room is required"),
-    check("transport")
-    .not()
-    .isEmpty()
-    .withMessage("transport is required"),
+    
   
 ];

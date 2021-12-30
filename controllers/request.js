@@ -79,17 +79,18 @@ exports.getReceivedRequest =  async(req, res) => {
       
             const result = await Request.findById(id).populate("Sender").select('_id')
             const user= await User.findOne(({email: result.Sender.email}))
-            let arr=[...req.user.roomMates,...user.roomMates]
+           
             const newuser={...user , roomMates : user.roomMates.push(req.user._id)}
-            const receiveuser={...req.user,roomMates : arr.push(user._id)}
-        
+            const receiveuser={...req.user,roomMates : req.user.roomMates.push(user._id)}
+            let veuser={}
+            user.roomMates.map((el)=> {veuser={...receiveuser,roomMates : el.roomMates.push(user._id)}})
             const resu = await User.updateOne(
                 { _id: user._id },
                 { $set: { ...newuser } }
               );
               const resuu= await User.updateOne(
                 { _id: req.user._id },
-                { $set: { ... receiveuser } }
+                { $set: { ... veuser } }
               );
               const re= await Request.deleteOne({ _id: result._id });
               res.status(200).send({ message: "update success" });

@@ -24,15 +24,7 @@ const bookingSchema = new Schema({
     default: [],
     required: true,
   },
-  transport: {
-    type: String,
-    required: true,
-  },
-  transport_number: {
-    type: Number,
-    default : 0,
   
-  },
 
 },
 { timestamps: true });

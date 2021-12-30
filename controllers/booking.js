@@ -4,7 +4,7 @@ const Hotel=require("../models/hotel")
 
 exports.addbooking = async (req, res) => {
     try { //transport  yes or no
-      const {room,transport}=req.body
+      const {room}=req.body
       id_maker=req.user._id
     let phones=[]
       let  emails=[]
@@ -25,9 +25,9 @@ exports.addbooking = async (req, res) => {
         { $set: { booking : true } }
       )
       let booking={}
-       if(transport==="yes")
-      {booking={ id_maker,room,transport_number:emails.length,transport,emails,phones,transport}}
-      else { booking={ id_maker,room,transport,emails,phones,transport}}
+    
+      booking={ id_maker,room,emails,phone}
+    
      
       const book = new Booking(booking);
       const response = await book.save();
@@ -36,7 +36,7 @@ exports.addbooking = async (req, res) => {
      { const psu = await Hotel.updateOne(
         { _id: r[0]._id},
         { $set: {rooms: r[0].rooms-=emails.length ,
-                 transport: r[0].transport-=emails.length,
+                
                  triple_rooms: r[0]. triple_rooms-=1} }
       )
       
@@ -45,7 +45,7 @@ exports.addbooking = async (req, res) => {
       else {const psu = await Hotel.updateOne(
         { _id: r[0]._id},
         { $set: {rooms: r[0].rooms-=emails.length ,
-                 transport: r[0].transport-=emails.length} }
+                } }
       )
       
     

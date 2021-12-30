@@ -37,7 +37,7 @@ exports.signup = (req, res) => {
                 <p>https://nationalcybersecuritycongress.vercel.app/verify-email/${token}</p>
                 <hr />
                 <p>This email may contain sensitive information</p>
-                <p>http://localhost:3000</p>
+                
             `,
     };
 

@@ -26,7 +26,7 @@ exports.addbooking = async (req, res) => {
       )
       let booking={}
     
-      booking={ id_maker,room,emails,phone}
+      booking={ id_maker,room,emails,phones}
     
      
       const book = new Booking(booking);

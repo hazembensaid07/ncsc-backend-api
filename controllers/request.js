@@ -13,10 +13,10 @@ exports.sendRequest =  (req, res) => {
               return res.status(400).json({
             error: "User With This Email doesn't exist",
           });}
-          if(user.roomMates.length=2) {   return res.status(400).json({
+          if(user.roomMates.length==2) {   return res.status(400).json({
             error: "User have 2 roomates",
           });}
-          if(user.roomMates.length + req.user.roomMates.length + 1) {  return res.status(400).json({
+          if((user.roomMates.length + req.user.roomMates.length + 1)==2) {  return res.status(400).json({
             error: "User With This Email is not available",
           });}
           else {

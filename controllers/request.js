@@ -13,6 +13,12 @@ exports.sendRequest =  (req, res) => {
               return res.status(400).json({
             error: "User With This Email doesn't exist",
           });}
+          if(user.roomMates.length=2) {   return res.status(400).json({
+            error: "User have 2 roomates",
+          });}
+          if(user.roomMates.length + req.user.roomMates.length + 1) {  return res.status(400).json({
+            error: "User With This Email is not available",
+          });}
           else {
               if(user.booking) {
                 return res.status(400).json({
@@ -81,9 +87,19 @@ exports.getReceivedRequest =  async(req, res) => {
             const user= await User.findOne(({email: result.Sender.email}))
            
            
-            const receiveuser={...req.user,roomMates : req.user.roomMates.push(user._id)}
+            let receiveuser={...req.user,roomMates : req.user.roomMates.push(user._id)}
             
-             if(user.roomMates.length>0) {user.roomMates.map((el)=>  (receiveuser={...receiveuser, roomMates : receiveuser.roomMates.push(el)}))}
+             if(user.roomMates.length>0) {user.roomMates.map((el)=>(receiveuser={...receiveuser, roomMates : receiveuser.roomMates.push(el)}))}
+             if(user.roomMates.length>0) {
+               user.roomMates.map(async (el)=> { const user= await User.findOne(({_id: el}))
+                 const newusr={...user,roomMates: user.roomMates.push(req.user._id)}
+                 const resuu= await User.updateOne(
+                  { _id: el },
+                  { $set: { ...newusr } }
+                );
+              
+              })
+             }
              const newuser={...user , roomMates : user.roomMates.push(req.user._id)}
             const resu = await User.updateOne(
                 { _id: user._id },

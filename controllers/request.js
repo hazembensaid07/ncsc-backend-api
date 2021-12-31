@@ -88,8 +88,8 @@ exports.getReceivedRequest =  async(req, res) => {
            
            
             let receiveuser={...req.user,roomMates : req.user.roomMates.push(user._id)}
-            
-            
+            let us={}
+             if(user.roomMates.length>0) {user.roomMates.map((el)=>(us={...receiveuser, roomMates : receiveuser.roomMates.push(el)}))}
              if(user.roomMates.length>0) {
                user.roomMates.map(async (el)=> {let user= await User.findById(el)
               let newusr={...user,roomMates: user.roomMates.push(req.user._id)}
@@ -107,7 +107,7 @@ exports.getReceivedRequest =  async(req, res) => {
               );
               const resuu= await User.updateOne(
                 { _id: req.user._id },
-                { $set: { ...receiveuser } }
+                { $set: { ...us } }
               );
               const re= await Request.deleteOne({ _id: result._id });
               res.status(200).send({ message: "update success" });

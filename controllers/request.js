@@ -16,7 +16,7 @@ exports.sendRequest =  (req, res) => {
           if(user.roomMates.length==2) {   return res.status(400).json({
             error: "User have 2 roomates",
           });}
-          if((user.roomMates.length + req.user.roomMates.length + 1)==2) {  return res.status(400).json({
+          if((user.roomMates.length + req.user.roomMates.length + 1)>2) {  return res.status(400).json({
             error: "User With This Email is not available",
           });}
           else {

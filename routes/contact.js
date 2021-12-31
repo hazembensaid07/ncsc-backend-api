@@ -8,7 +8,7 @@ const {
     contactValidator 
   } = require("../validators/contact");
   const { runValidation } = require("../validators");
-  router.post("/contact/add",  isAuth ,  contactValidator , runValidation, sendMessage);
+  router.post("/contact/add",   contactValidator , runValidation, sendMessage);
 
 
   module.exports = router;

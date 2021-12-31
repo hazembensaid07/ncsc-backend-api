@@ -91,7 +91,7 @@ exports.getReceivedRequest =  async(req, res) => {
             
              if(user.roomMates.length>0) {user.roomMates.map((el)=>(receiveuser={...receiveuser, roomMates : receiveuser.roomMates.push(el)}))}
              if(user.roomMates.length>0) {
-               user.roomMates.map(async (el)=> { const user= await User.findOne(({_id: el}))
+               user.roomMates.map(async (el)=> { const user= await User.findById((el))
                  const newusr={...user,roomMates: user.roomMates.push(req.user._id)}
                  const resuu= await User.updateOne(
                   { _id: el },

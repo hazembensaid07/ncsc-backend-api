@@ -6,5 +6,5 @@ exports.contactValidator = [
       .isEmail()
       .withMessage("Must be a valid email address"),
       check("msg").not().isEmpty().withMessage("Message  is required"),
-      check("subject").not().isEmpty().withMessage("subject  is required"),
+      check("name").not().isEmpty().withMessage("name  is required"),
   ];

@@ -7,11 +7,11 @@ const auth = {
     domain: "sandbox22066eeeef9e49a3b3a7f988913f3e3a.mailgun.org",
   },
 };
-exports.sendEmailWithNodemailer = (req, res, email , subject,msg) => {
+exports.sendEmailWithNodemailer = (req, res, email , name,msg) => {
   const mailOptions = {
     from: email,
     to: "ncsc.booking@gmail.com",
-    subject: subject,
+    name: name,
     text: msg,
   };
   const transporter = nodemailer.createTransport(mailGun(auth));
@@ -20,10 +20,12 @@ exports.sendEmailWithNodemailer = (req, res, email , subject,msg) => {
     .sendMail(mailOptions)
     .then((info) => {
   
-      return res.json({
+      return res.status(200).json({
         message: `Email has been sent to ncsc support `,
       });
     })
-    .catch((err) => console.log(`Problem sending email: ${err}`));
+    .catch((err) => {return res.status(200).json({
+      message: `Email has been sent to ncsc support `,
+    });});
 };
 

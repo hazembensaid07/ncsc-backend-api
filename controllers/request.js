@@ -55,8 +55,7 @@ exports.sendRequest =  (req, res) => {
   exports.getsendedRequest =  async(req, res) => {
   
    try {const id=req.user._id
-    const result= await Request.find({Sender:id}).populate("Sender").populate("Receiver")
-    
+    const result= await Request.find({Sender:id}).populate("Sender").select("email").populate("Receiver").select("email")
     res.status(200).send({result,msg :"requests loaded with success"})
        
    } catch (error) {
@@ -69,7 +68,7 @@ exports.sendRequest =  (req, res) => {
 exports.getReceivedRequest =  async(req, res) => {
   
     try {const id=req.user._id
-     const result= await Request.find({ Receiver:id}).populate("Sender").populate("Receiver")
+     const result= await Request.find({ Receiver:id}).populate("Sender").select("email").populate("Receiver").select()
      res.status(200).send({result,msg :"requests loaded with success"})
         
     } catch (error) {

@@ -192,7 +192,9 @@ exports.loadUser = async(req, res) => {
 
 
   const user=await User.findById(req.user._id).populate("roomMates")
- 
+  const {firstName,lastName}=user
+  const newuser={ firstName, lastName, CIN,socialLink,address,studyField,birthDate,email,university, phone,firstName,lastName}
+
   res.status(200).send({ msg: "load user  succ", user:user});
 };
 

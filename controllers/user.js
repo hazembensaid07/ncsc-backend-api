@@ -195,7 +195,7 @@ exports.loadUser = async(req, res) => {
   const {firstName,lastName}=user
   const newuser={ firstName, lastName, CIN,socialLink,address,studyField,birthDate,email,university, phone,firstName,lastName}
 
-  res.status(200).send({ msg: "load user  succ", user:user});
+  res.status(200).send({ msg: "load user  succ", user:newuser});
 };
 
 exports.loadAllUsers = async (req, res) => {

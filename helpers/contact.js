@@ -24,8 +24,8 @@ exports.sendEmailWithNodemailer = (req, res, email , name,msg) => {
         message: `Email has been sent to ncsc support `,
       });
     })
-    .catch((err) => {return res.status(200).json({
-      message: `Email has been sent to ncsc support `,
+    .catch((err) => {return res.status(400).json({
+      message: `Email has not  been sent to ncsc support `,
     });});
 };
 

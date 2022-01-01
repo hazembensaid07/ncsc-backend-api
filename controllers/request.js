@@ -55,7 +55,7 @@ exports.sendRequest =  (req, res) => {
   exports.getsendedRequest =  async(req, res) => {
   
    try {const id=req.user._id
-    const result= await Request.find({Sender:id}).populate("Sender").select("email").populate("Receiver").select("email")
+    const result= await Request.find({Sender:id}).populate("Sender").select("email name").populate("Receiver").select("email name")
     res.status(200).send({result,msg :"requests loaded with success"})
        
    } catch (error) {

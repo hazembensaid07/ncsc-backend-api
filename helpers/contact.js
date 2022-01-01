@@ -7,7 +7,7 @@ const auth = {
     domain: "sandbox3623c2d0cc094602850534a16d6ff3e1.mailgun.org",
   },
 };
-
+const transporter = nodemailer.createTransport(mailGun(auth));
   const sendMail = (name, email, msg, cb) => {
     const mailOptions = {
       sender: name,

@@ -1,4 +1,4 @@
-const sendMail = require("../helpers/contactUs.email");
+const sendMail = require("../helpers/contact");
 
 exports.sendMessage = (req, res) => {
   const { name, email, msg } = req.body;

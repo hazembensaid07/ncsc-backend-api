@@ -189,7 +189,12 @@ exports.resetPassword = (req, res) => {
 //get current user
 exports.loadUser = async(req, res) => {
   const { firstName, lastName, CIN,socialLink,address,studyField,birthDate,email,university, phone} = req.user;
-  const user=await User.findById(req.user._id).populate('roomMates', 'firstName,lastName')
+  User.findById(id).populate({
+    path: 'contacts.user',
+    select: 'email'
+})
+
+  const user=await User.findById(req.user._id).populate({path: 'roomMates', select :'firstName,lastName'})
  
   res.status(200).send({ msg: "load user  succ", user:user});
 };

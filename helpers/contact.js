@@ -3,8 +3,8 @@ const mailGun = require("nodemailer-mailgun-transport");
 
 const auth = {
   auth: {
-    api_key: "key-dbb4761323df8499f26b3dfaf740962f",
-    domain: "sandbox22066eeeef9e49a3b3a7f988913f3e3a.mailgun.org",
+    api_key: "193d37fe7ccd0b41fa0bb7e50c72a4f5-1d8af1f4-08d63239",
+    domain: "sandbox3623c2d0cc094602850534a16d6ff3e1.mailgun.org",
   },
 };
 exports.sendEmailWithNodemailer = (req, res, email , name,msg) => {

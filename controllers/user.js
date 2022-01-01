@@ -191,7 +191,7 @@ exports.loadUser = async(req, res) => {
   const { firstName, lastName, CIN,socialLink,address,studyField,birthDate,email,university, phone} = req.user;
 
 
-  const user=await User.findById(req.user._id).populate({path:'roomMates', select: 'firstName,lastName'})
+  const user=await User.findById(req.user._id).populate("roomMates")
  
   res.status(200).send({ msg: "load user  succ", user:user});
 };

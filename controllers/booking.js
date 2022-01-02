@@ -37,7 +37,7 @@ exports.addbooking = async (req, res) => {
         { _id: r[0]._id},
         { $set: {rooms: r[0].rooms-=emails.length ,
                 
-                 triple_rooms: r[0]. triple_rooms-=1} }
+                 triple_rooms: r[0].triple_rooms-=1} }
       )
       
     
@@ -88,6 +88,24 @@ exports.addbooking = async (req, res) => {
           return;
         } else {
           res.status(200).send({ message: "booking   found ", result });
+        }
+      } catch (error) {
+        res.status(400).send({ message: "try later cannot respond" });
+      }
+  };
+  exports.loadBookingByEmail= async (req, res) => {
+   
+    try {
+        //get the id from params
+        const email = req.body.email
+        //lauch findById query
+        const result = await Booking.find({emails: email});
+      const r=await User.findOne({email: email})
+        if (!result) {
+          res.status(400).send({ msg: "there is no booking  " });
+          return;
+        } else {
+          res.status(200).send({ message: "booking   found ", result,r });
         }
       } catch (error) {
         res.status(400).send({ message: "try later cannot respond" });

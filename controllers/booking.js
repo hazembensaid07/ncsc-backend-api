@@ -144,8 +144,8 @@ exports.addbooking = async (req, res) => {
        el.room===3 && triple ++)))
      
       
-      const result = await Hotel.find();
-      res.status(200).send({single_room : single, double_room: double,triple_room : triple ,message: "rooms per category" ,  rest_persons : result[0].rooms});
+      const resu = await Hotel.find();
+      res.status(200).send({single_room : single, double_room: double,triple_room : triple ,message: "rooms per category" ,  rest_persons : resu[0].rooms});
     } catch (error) {
       res.status(400).send({ message: "error try later" });
     }

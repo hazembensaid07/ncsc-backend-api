@@ -134,9 +134,18 @@ exports.addbooking = async (req, res) => {
  
   
   exports.getAvailableRooms_Transport = async (req, res)=> {
-    try {
+    try {  let single=0;
+      let double=0;
+      let triple=0;
+     const result = await Booking.find();
+     //const re=await Booking.deleteMany();
+     result.map((el =>  ( el.room===1 && single ++,
+       el.room===2 && double ++,
+       el.room===3 && triple ++)))
+     
+      
       const result = await Hotel.find();
-      res.status(200).send({rooms : result[0].rooms,transport: result[0].transport});
+      res.status(200).send({single_room : single, double_room: double,triple_room : triple ,message: "rooms per category" ,  rest_persons : result[0].rooms});
     } catch (error) {
       res.status(400).send({ message: "error try later" });
     }
@@ -166,6 +175,26 @@ exports.addbooking = async (req, res) => {
           { $set: { booking : false,
                    } }
         );
+
+        const r= await Hotel.find();
+        if(req.user.roomMates.length==2)
+     { const psu = await Hotel.updateOne(
+        { _id: r[0]._id},
+        { $set: {rooms: r[0].rooms+=req.user.roomMates.length+1 ,
+                
+                 triple_rooms: r[0]. triple_rooms+=1} }
+      )
+      
+    
+     }
+      else {const psu = await Hotel.updateOne(
+        { _id: r[0]._id},
+        { $set: {rooms: r[0].rooms+=req.user.roomMates.length+1 ,
+                } }
+      )
+      
+    
+      }
      res.status(200).send({message: "booking deleted" });
     } catch (error) {
       res.status(400).send({ message: "can not get bookings" });

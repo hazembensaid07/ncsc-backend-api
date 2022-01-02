@@ -114,7 +114,7 @@ exports.addbooking = async (req, res) => {
   
   exports.loadBookings= async (req, res) => {
     try {
-      const result = await Booking.find();
+      const result = await Booking.find().select("emails");
       
       
       res.status(200).send({ response: result, message: "bookings  found" });

@@ -8,6 +8,9 @@ exports.sendRequest =  (req, res) => {
       if(emailSender===emailReceiver) { return res.status(400).json({
         error: "you can not send request to your self",
       })}
+      if(req.user.rooMates==1) {return res.status(400).json({
+        error: "User With This Email is not available",
+      });}
       User.findOne({email: emailReceiver}).exec((err,user)=> {
           if(!user) { 
               return res.status(400).json({

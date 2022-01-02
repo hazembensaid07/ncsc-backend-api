@@ -153,18 +153,18 @@ exports.addbooking = async (req, res) => {
   exports.deleteBooking= async (req, res) => {
     try {
       const id_maker=req.user.id
-      const result = await Booking.deleteOne({ id_maker: id_maker });
+      const result = await Booking.deleteOne({ emails : req.user.email });
       req.user.roomMates.map(async(el) => {
       const resu = await User.updateOne(
         { _id: el},
         { $set: { booking : false ,
-                  roomMates: []} }
+                  } }
       );
      })
       const resu = await User.updateOne(
           { _id: req.user._id },
           { $set: { booking : false,
-                    roomMates: []} }
+                   } }
         );
      res.status(200).send({message: "booking deleted" });
     } catch (error) {

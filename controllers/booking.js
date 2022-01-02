@@ -115,7 +115,7 @@ exports.addbooking = async (req, res) => {
   exports.loadBookings= async (req, res) => {
     try {
       const result = await Booking.find().select("emails -_id");
-      const r=await Booking.countDocuments()
+      const r=await User.find({booking : true}).count()
       
       res.status(200).send({ response: result, message: "bookings  found",r });
     } catch (error) {

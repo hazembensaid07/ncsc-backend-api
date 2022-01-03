@@ -117,11 +117,7 @@ exports.addbooking = async (req, res) => {
       const result = await Booking.find().select("emails -_id");
       const r=await User.find({booking : true}).count()
       
-      const a=await Booking.updateMany({}, 
-      {$set : {"paid": false }},
-      {multi:true,
-      upsert:false}, 
-        )
+     
       
       res.status(200).send({ response: result, message: "bookings  found",r });
     } catch (error) {

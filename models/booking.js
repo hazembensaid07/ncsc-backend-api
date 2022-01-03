@@ -24,9 +24,12 @@ const bookingSchema = new Schema({
     default: [],
     required: true,
   },
+  paid : {type : Boolean,
+    default : false},
   
 
 },
+
 { timestamps: true });
 
 module.exports =Booking = model("booking", bookingSchema);

@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const {addbooking,loadBookings,loadBooking,Transportplaces,getRooms,getAvailableRooms_Transport,addAvailableRooms_Transport,loadBookingByUserEmail,deleteBooking,loadBookingByEmail}=require("../controllers/booking")
+const {addbooking,loadBookings,loadBooking,Transportplaces,getRooms,getAvailableRooms_Transport,addAvailableRooms_Transport,loadBookingByUserEmail,deleteBooking,loadBookingByEmail,deleteRoomMate}=require("../controllers/booking")
 
 const {hotelValidator}=require("../validators/hotel")
 const { admin, isAuth } = require("../middlewares/SignIn");
@@ -19,5 +19,6 @@ const {
     router.post("/booking/delete",isAuth,deleteBooking)
     router.get("/booking/byuseremail",isAuth,loadBookingByUserEmail)
     router.get("/booking/byemail",admin,loadBookingByEmail)
+    router.post("/booking/deleteMate",isAuth,deleteRoomMate)
   
 module.exports = router;

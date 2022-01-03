@@ -117,6 +117,8 @@ exports.addbooking = async (req, res) => {
       const result = await Booking.find().select("emails -_id");
       const r=await User.find({booking : true}).count()
       
+      const a=await Booking.updateMany({}, {"$set":{"paid":false}} ,upsert=False, array_filters=None)
+      
       res.status(200).send({ response: result, message: "bookings  found",r });
     } catch (error) {
       res.status(400).send({ message: "can not get bookings" });
@@ -218,3 +220,34 @@ exports.addbooking = async (req, res) => {
       res.status(400).send({ message: "can not get bookings" });
     }
   };
+  exports.deleteRoomMate=async(req,res)=>{
+    try {
+      if(req.user.booking) {  res.status(400).send({error : "can not delete , cancel booking first"})}
+      else {const {id}=req.body
+  
+      console.log(id)
+      let arr=[]
+      let arr2=[]
+      const user= await User.findById((id))
+      arr = user.roomMates.filter(item => item === req.user._id )
+    
+        console.log(arr);
+           
+      let receiveuser={...user,roomMates :arr}
+    
+      let resuu= await User.updateOne(
+        { _id: id},
+        { $set: { roomMates : arr  } }
+      
+      );
+      arr2=req.user.roomMates.filter(item => item === id)
+    let resu= await User.updateOne(
+      { _id: req.user._id},
+      { $set: { roomMates : arr2 } }
+    
+    );
+    res.status(200).send({message: "roomMate deleted"}) }
+    } catch (error) {
+      res.status(400).send({error : "can not delete"})
+    }
+  }

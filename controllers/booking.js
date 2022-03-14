@@ -57,6 +57,7 @@ exports.addbooking = async (req, res) => {
        res.status(400).send("can not save it");
     }
   };
+  //get booking by userid
   exports.loadBooking= async (req, res) => {
    
     try {
@@ -93,6 +94,7 @@ exports.addbooking = async (req, res) => {
         res.status(400).send({ message: "try later cannot respond" });
       }
   };
+  //get booking by email
   exports.loadBookingByEmail= async (req, res) => {
    
     try {
@@ -111,7 +113,7 @@ exports.addbooking = async (req, res) => {
         res.status(400).send({ message: "try later cannot respond" });
       }
   };
-  
+  // get all bookings
   exports.loadBookings= async (req, res) => {
     try {
       const result = await Booking.find().select("emails -_id");
@@ -124,18 +126,7 @@ exports.addbooking = async (req, res) => {
       res.status(400).send({ message: "can not get bookings" });
     }
   };
-  exports.Transportplaces= async (req, res) => {
-    try {
-       let  places=0;
-      const result = await Booking.find();
-      result.map((el => places +=el.transport_number))
-      res.status(200).send({ place: places, message: "bus places" });
-    } catch (error) {
-      res.status(400).send({ message: "can not get places" });
-    }
-  };
- 
-
+  //get booked rooms 
    exports.getRooms= async (req, res) => {
     try {
        let single=0;
@@ -152,7 +143,7 @@ exports.addbooking = async (req, res) => {
     }
   };
  
-  
+  //get available rooms
   exports.getAvailableRooms_Transport = async (req, res)=> {
     try {  let single=0;
       let double=0;
@@ -170,6 +161,7 @@ exports.addbooking = async (req, res) => {
       res.status(400).send({ message: "error try later" });
     }
   }
+  //add rooms 
   exports.addAvailableRooms_Transport = async (req, res)=> {
     try {
       const hotel = new Hotel(req.body);
@@ -179,6 +171,7 @@ exports.addbooking = async (req, res) => {
       res.status(400).send("can not save it");
     }
   }
+  //delete bookings 
   exports.deleteBooking= async (req, res) => {
     try {
       const id_maker=req.user.id
@@ -220,6 +213,7 @@ exports.addbooking = async (req, res) => {
       res.status(400).send({ message: "can not get bookings" });
     }
   };
+  // delete roommates 
   exports.deleteRoomMate=async(req,res)=>{
     try {
       if(req.user.booking) {  res.status(400).send({error : "can not delete , cancel booking first"})}

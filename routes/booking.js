@@ -12,13 +12,12 @@ const {
    router.post("/booking/add",  isAuth ,  bookingValidator , runValidation, addbooking);
    router.get("/booking/all", admin,loadBookings)
    router.get("/booking/one/:id",isAuth,loadBooking)
-
    router.get("/booking/rooms",admin,getRooms)
    router.get("/booking/available",isAuth,getAvailableRooms_Transport)
-    router.post("/booking/add_available",admin,hotelValidator,addAvailableRooms_Transport)
-    router.post("/booking/delete",isAuth,deleteBooking)
-    router.get("/booking/byuseremail",isAuth,loadBookingByUserEmail)
-    router.get("/booking/byemail",admin,loadBookingByEmail)
-    router.post("/booking/deleteMate",isAuth,deleteRoomMate)
+   router.post("/booking/add_available",admin,hotelValidator,addAvailableRooms_Transport)
+   router.post("/booking/delete",isAuth,deleteBooking)
+   router.get("/booking/byuseremail",isAuth,loadBookingByUserEmail)
+   router.get("/booking/byemail",admin,loadBookingByEmail)
+   router.post("/booking/deleteMate",isAuth,deleteRoomMate)
   
 module.exports = router;

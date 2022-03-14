@@ -2,8 +2,6 @@ const User = require("../models/user");
 const jwt = require("jsonwebtoken");
 
 const _ = require("lodash");
-
-const fetch = require("node-fetch");
 const { sendEmailWithNodemailer } = require("../helpers/email");
 
 exports.test = (req, res) => {

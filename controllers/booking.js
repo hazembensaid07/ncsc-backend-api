@@ -1,9 +1,9 @@
 const Booking= require("../models/booking");
 const User=require("../models/user")
 const Hotel=require("../models/hotel")
-
+// create a booking
 exports.addbooking = async (req, res) => {
-    try { //transport  yes or no
+    try { 
       const {room}=req.body
       id_maker=req.user._id
     let phones=[]

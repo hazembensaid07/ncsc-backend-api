@@ -12,7 +12,7 @@ const {
    router.post("/booking/add",  isAuth ,  bookingValidator , runValidation, addbooking);
    router.get("/booking/all", admin,loadBookings)
    router.get("/booking/one/:id",isAuth,loadBooking)
-   router.get("/booking/transport",admin,Transportplaces)
+
    router.get("/booking/rooms",admin,getRooms)
    router.get("/booking/available",isAuth,getAvailableRooms_Transport)
     router.post("/booking/add_available",admin,hotelValidator,addAvailableRooms_Transport)

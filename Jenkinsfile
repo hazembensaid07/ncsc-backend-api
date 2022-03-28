@@ -17,7 +17,7 @@ pipeline {
             steps {
                 script {
                   
-                   gv.buildImage(  'hazem06/ncsc_backend:node-app-test-1.0')
+                   gv.buildImage(  'hazem06/ncsc_test:node-app-test-1.0')
                 }
             }
         }
@@ -25,7 +25,7 @@ pipeline {
             steps {
                 script {
                   
-                   gv.test('hazem06/ncsc_backend:node-app-test-1.0')
+                   gv.test('hazem06/ncsc_test:node-app-test-1.0')
                 }
             }
         }
@@ -33,7 +33,7 @@ pipeline {
             steps {
                 script {
                   
-                   gv.release('hazem06/ncsc_backend:node-app-test-1.0')
+                   gv.release('hazem06/ncsc_test:node-app-test-1.0')
                 }
             }
         }
@@ -41,7 +41,7 @@ pipeline {
             steps {
                 script {
                   
-                    gv.deployApp('hazem06/ncsc_backend:node-app-release-1.0')
+                    gv.deployApp('hazem06/ncsc_test:node-app-release-1.0')
                     
                 }
             }

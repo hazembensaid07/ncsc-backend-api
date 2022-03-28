@@ -25,8 +25,8 @@ def release(String imageName) {
         sh "echo $PASS | docker login -u $USER --password-stdin"
         sh "docker pull $imageName "
 
-        sh "docker tag  $imageName hazem06/ncsc_backend:node-app-release-1.0"
-        sh "docker push hazem06/ncsc_backend:node-app-release-1.0 "
+        sh "docker tag  $imageName hazem06/ncsc_test:node-app-release-1.0"
+        sh "docker push hazem06/ncsc_test:node-app-release-1.0 "
     }
 }
 def deployApp(String imageName) {

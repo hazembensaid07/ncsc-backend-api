@@ -56,7 +56,7 @@ pipeline {
               emailext body: 'successs', recipientProviders: [[$class: 'DevelopersRecipientProvider'], [$class: 'RequesterRecipientProvider']], subject: 'success'
          }  
          failure {  
-            emailext body: 'faill', recipientProviders: [[$class: 'DevelopersRecipientProvider'], [$class: 'RequesterRecipientProvider']], subject: 'fail'
+            emailext body: 'failll', recipientProviders: [[$class: 'DevelopersRecipientProvider'], [$class: 'RequesterRecipientProvider']], subject: 'fail'
          }  
 }
 

@@ -52,7 +52,7 @@ pipeline {
     } 
     post {
        always {
-        emailext body: 'build', recipientProviders: [[$class: 'DevelopersRecipientProvider'], [$class: 'RequesterRecipientProvider']], subject: 'Test'
+        emailext body: 'buildd', recipientProviders: [[$class: 'DevelopersRecipientProvider'], [$class: 'RequesterRecipientProvider']], subject: 'Test'
         }
   
          success {  

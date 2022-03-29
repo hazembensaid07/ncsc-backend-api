@@ -1,9 +1,6 @@
 def gv
 pipeline {
     agent any
-    triggers {
-       githubPush()
-    }
     tools {
         nodejs 'my-node'
     }
@@ -40,7 +37,7 @@ pipeline {
                 }
             }
         }
-        stage("deployy") {
+        stage("deploy") {
             steps {
                 script {
                   
@@ -52,7 +49,7 @@ pipeline {
     } 
     post {
        always {
-        emailext body: 'buildd', recipientProviders: [[$class: 'DevelopersRecipientProvider'], [$class: 'RequesterRecipientProvider']], subject: 'Test'
+        emailext body: 'build', recipientProviders: [[$class: 'DevelopersRecipientProvider'], [$class: 'RequesterRecipientProvider']], subject: 'Test'
         }
   
          success {  

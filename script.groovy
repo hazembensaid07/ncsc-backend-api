@@ -32,9 +32,10 @@ def release(String imageName) {
 def deployApp(String imageName) {
     sshagent(['ec2-deploy-instance']) {
     def shellcmd="bash ./server-cmd.sh ${imageName}"
-    sh "ssh -o StrictHostKeyChecking=no  ubuntu@18.156.82.152 ${scp server-cmd.sh  ubuntu@18.156.82.152:/home/ubuntu}"
-    sh "ssh -o StrictHostKeyChecking=no  ubuntu@18.156.82.152 ${scp  docker-compose.yml ubuntu@18.156.82.152:/home/ubuntu}"
-    sh "ssh -o StrictHostKeyChecking=no  ubuntu@18.156.82.152 ${shellcmd}"}
+    sh "ssh -o StrictHostKeyChecking=no  ubuntu@18.156.82.152"
+    sh "ssh -o StrictHostKeyChecking=no  ubuntu@18.156.82.152"
+    sh "ssh -o StrictHostKeyChecking=no  ubuntu@18.156.82.152 ${shellcmd}"
+    }
 
     
 } 

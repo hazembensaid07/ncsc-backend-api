@@ -1,6 +1,9 @@
 def gv
 pipeline {
     agent any
+    triggers {
+       githubPush()
+    }
     tools {
         nodejs 'my-node'
     }

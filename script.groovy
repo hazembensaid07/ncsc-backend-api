@@ -30,9 +30,10 @@ def release(String imageName) {
     }
 }
 def deployApp(String imageName) {
-     
-    
-      echo 'deploying the appppllication'
+    sshagent(['ec2-deploy-instance']) {
+    def dockerComposeCommand="docker-compose -f docker-compose.yml up --detach"
+    sh "scp  docker-compose.yml ubuntu@18.156.82.152:/home/ubuntu"
+    sh "ssh -o StrictHostKeyChecking=no  ubuntu@18.156.82.152 ${dockerComposeCommand}"
 
     
 } 

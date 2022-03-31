@@ -21,6 +21,7 @@ const {
 const { runValidation } = require("../validators");
 const { admin, isAuth } = require("../middlewares/SignIn");
 //validation will be made on the req.body json
+router.post("/user/test", test);
 router.post("/user/signup", userSignupValidator, runValidation, signup);
 router.post("/user/account-activation", accountActivation);
 router.post("/user/signin", userSigninValidator, runValidation, signin);

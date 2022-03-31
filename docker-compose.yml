@@ -16,9 +16,17 @@ services:
       - JWT_SECRET=SZ5+'3eE)hhDbpNF
       - JWT_RESET_PASSWORD=:'~.vJ!T>\2^3t?\
       - JWT_ACCOUNT_ACTIVATION=jWAJM#6PE53@a")t
-      - GO=bhbdhf
     depends_on:
       - mongodb
+      - nginx
+    networks:
+      - node-network
+  nginx: 
+    image: hazem06/ncsc_test:nginx 
+    container_name: nginx-reverse-proxy
+    restart: always
+    ports:
+      - "80:80"
     networks:
       - node-network
   mongodb:

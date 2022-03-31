@@ -10,9 +10,6 @@ exports.sendEmailWithNodemailer = (req, res, emailData) => {
       user: process.env.EMAIL, // MAKE SURE THIS EMAIL IS YOUR GMAIL FOR WHICH YOU GENERATED APP PASSWORD
       pass: process.env.PASSWORD, // MAKE SURE THIS PASSWORD IS YOUR GMAIL APP PASSWORD WHICH YOU GENERATED EARLIER
     },
-    tls: {
-      rejectUnauthorized: false,
-    },
   });
 
   return transporter

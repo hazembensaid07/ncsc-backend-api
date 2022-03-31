@@ -42,6 +42,6 @@ router.put(
 router.post("/go", isAuth, test);
 router.post("/goo", admin, test);
 router.get("/user/loadprofile", isAuth, loadUser);
-router.get("/users", loadAllUsers);
+router.get("/users", admin, loadAllUsers);
 
 module.exports = router;

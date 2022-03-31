@@ -52,6 +52,9 @@ services:
       - ME_CONFIG_MONGODB_SERVER=mongodb
     networks:
       - node-network
+    -depends_on:
+      - mongodb
+      - nginx
 volumes:
   data:
     driver: local

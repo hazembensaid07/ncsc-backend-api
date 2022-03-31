@@ -1,4 +1,4 @@
 #!/usr/bin/env bash
 export IMAGE=$1
-docker-compose -f docker-compose.yml up --detach
+docker-compose -f docker-compose.yml up --detach --build
 echo "success"

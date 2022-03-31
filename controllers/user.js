@@ -129,46 +129,6 @@ exports.accountActivation = (req, res) => {
     });
   }
 };
-exports.addUser = async (req, res) => {
-  //destructuring of the token from req.body
-
-  //decoding the token to get the user parameters
-  try {
-    const {
-      firstName,
-      lastName,
-      CIN,
-      birthDate,
-      socialLink,
-      address,
-      studyField,
-      email,
-      password,
-      university,
-      phone,
-    } = req.body;
-    //creating a new user object (the password will be hashed in this phase using the functions declared int he user Schema)
-    const user = new User({
-      firstName,
-      lastName,
-      birthDate,
-      CIN,
-      socialLink,
-      address,
-      studyField,
-      email,
-      password,
-      university,
-      phone,
-    });
-    const result = await user.save();
-    res.status(200).send({ msg: "load user  succ", user: user });
-  } catch (error) {
-    return res.status(400).json({
-      error: "User with that email does not exist",
-    });
-  }
-};
 
 exports.signin = (req, res) => {
   const { email, password } = req.body;

@@ -23,7 +23,6 @@ exports.sendEmailWithNodemailer = (req, res, emailData) => {
       });
     })
     .catch((err) => {
-      res.status(400).send("cannot send mail");
-      console.log(err.message);
+      res.status(400).send(err.message);
     });
 };

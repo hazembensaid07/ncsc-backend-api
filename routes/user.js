@@ -10,6 +10,7 @@ const {
   test,
   loadUser,
   loadAllUsers,
+  addUser,
 } = require("../controllers/user");
 //import validators
 const {
@@ -22,7 +23,7 @@ const { runValidation } = require("../validators");
 const { admin, isAuth } = require("../middlewares/SignIn");
 //validation will be made on the req.body json
 router.get("/user/test", test);
-router.post("/user/signup", userSignupValidator, runValidation, signup);
+router.post("/user/signup", userSignupValidator, runValidation, addUser);
 router.post("/user/account-activation", accountActivation);
 router.post("/user/signin", userSigninValidator, runValidation, signin);
 router.put(

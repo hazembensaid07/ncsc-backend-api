@@ -1,39 +1,59 @@
-version : '3'
+version: "3"
 services:
-   app:
-    container_name: nodeapp
+  app:
+    image: ${IMAGE}
     restart: always
-    build: .
     ports:
-      - '5000:5000'
+      - "5000"
+    environment:
+      - PORT=5000
+      - EMAIL=sylanos15@gmail.com
+      - DB_URI=mongodb://admin:password@mongodb
+      - api-key=193d37fe7ccd0b41fa0bb7e50c72a4f5-1d8af1f4-08d63239
+      - domain=sandbox3623c2d0cc094602850534a16d6ff3e1.mailgun.org
+      - PASSWORD=55145650
+      - JWT_SECRET=SZ5+'3eE)hhDbpNF
+      - JWT_RESET_PASSWORD=:'~.vJ!T>\2^3t?\
+      - JWT_ACCOUNT_ACTIVATION=jWAJM#6PE53@a")t
     depends_on:
       - mongodb
+      - nginx
     networks:
       - node-network
-   mongodb: 
-      image: mongo
-      container_name: mongoo
-      restart: always
-      ports:
-       - 27017:27017
-      environment:
-       - MONGO_INITDB_ROOT_USERNAME=admin
-       - MONGO_INITDB_ROOT_PASSWORD=password
-      volumes:
-       - data:/data/db
-      networks:
+  nginx: 
+    image: hazem06/ncsc_test:nginx 
+    container_name: nginx-reverse-proxy
+    restart: always
+    ports:
+      - "80:80"
+    networks:
       - node-network
-   mongo-express:
-     image : mongo-express
-     restart: always
-     ports:
+  mongodb:
+    image: mongo
+    container_name: mongoo
+    restart: always
+    ports:
+      - 27017:27017
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=admin
+      - MONGO_INITDB_ROOT_PASSWORD=password
+    volumes:
+      - data:/data/db
+    networks:
+      - node-network
+  mongo-express:
+    image: mongo-express
+    restart: always
+    ports:
       - 8081:8081
-     environment:
+    environment:
       - ME_CONFIG_MONGODB_ADMINUSERNAME=admin
       - ME_CONFIG_MONGODB_ADMINPASSWORD=password
       - ME_CONFIG_MONGODB_SERVER=mongodb
-     networks:
+    networks:
       - node-network
+    depends_on:
+      - mongodb
 volumes:
   data:
     driver: local

@@ -10,37 +10,63 @@ exports.test = (req, res) => {
 //signup controller
 exports.signup = (req, res) => {
   //destructuring the req.body object
-  const { firstName, lastName, CIN,socialLink,address,studyField,birthDate,email, password, university, phone} = req.body;
+  const {
+    firstName,
+    lastName,
+    CIN,
+    socialLink,
+    address,
+    studyField,
+    birthDate,
+    email,
+    password,
+    university,
+    phone,
+  } = req.body;
   // checking if the user eixsts or not
-  User.findOne({ email }).select('+hashed_password').exec((err, user) => {
-    if (user) {
-      return res.status(400).json({
-        error: "Email is taken",
-      });
-    }
-   
-    // creating the user token
-    const token = jwt.sign(
-      { firstName, lastName, CIN,socialLink,address,birthDate,studyField ,email, password, university, phone},
-      process.env.JWT_ACCOUNT_ACTIVATION,
-      { expiresIn: "7d" }
-    );
-    // activation email that will be sent to the user
-    const emailData = {
-      from: "ncsc.booking@gmail.com", // MAKE SURE THIS EMAIL IS YOUR GMAIL FOR WHICH YOU GENERATED APP PASSWORD
-      to: req.body.email, // WHO SHOULD BE RECEIVING THIS EMAIL? IT SHOULD BE THE USER EMAIL (VALID EMAIL ADDRESS) WHO IS TRYING TO SIGNUP
-      subject: "ACCOUNT ACTIVATION LINK",
-      html: `
+  User.findOne({ email })
+    .select("+hashed_password")
+    .exec((err, user) => {
+      if (user) {
+        return res.status(400).json({
+          error: "Email is taken",
+        });
+      }
+
+      // creating the user token
+      const token = jwt.sign(
+        {
+          firstName,
+          lastName,
+          CIN,
+          socialLink,
+          address,
+          birthDate,
+          studyField,
+          email,
+          password,
+          university,
+          phone,
+        },
+        process.env.JWT_ACCOUNT_ACTIVATION,
+        { expiresIn: "7d" }
+      );
+      // activation email that will be sent to the user
+      const emailData = {
+        from: process.env.EMAIL, // MAKE SURE THIS EMAIL IS YOUR GMAIL FOR WHICH YOU GENERATED APP PASSWORD
+        to: req.body.email, // WHO SHOULD BE RECEIVING THIS EMAIL? IT SHOULD BE THE USER EMAIL (VALID EMAIL ADDRESS) WHO IS TRYING TO SIGNUP
+        subject: "ACCOUNT ACTIVATION LINK",
+        html: `
                 <h1>Please use the following link to activate your account</h1>
                 <p>https://nationalcybersecuritycongress.vercel.app/verify-email/${token}</p>
                 <hr />
                 <p>This email may contain sensitive information</p>
                 
             `,
-    };
+      };
 
-    sendEmailWithNodemailer(req, res, emailData);
-  });
+      sendEmailWithNodemailer(req, res, emailData);
+    });
 };
 //acoount activation controller
 
@@ -60,10 +86,33 @@ exports.accountActivation = (req, res) => {
           });
         }
         //decoding the token to get the user parameters
-        const  { firstName, lastName, CIN,birthDate,socialLink,address,studyField,email, password, university, phone}=
-          jwt.decode(token);
+        const {
+          firstName,
+          lastName,
+          CIN,
+          birthDate,
+          socialLink,
+          address,
+          studyField,
+          email,
+          password,
+          university,
+          phone,
+        } = jwt.decode(token);
         //creating a new user object (the password will be hashed in this phase using the functions declared int he user Schema)
-        const user = new User( { firstName, lastName, birthDate,CIN,socialLink,address,studyField,email, password, university, phone});
+        const user = new User({
+          firstName,
+          lastName,
+          birthDate,
+          CIN,
+          socialLink,
+          address,
+          studyField,
+          email,
+          password,
+          university,
+          phone,
+        });
         // saving the user to the DB
         user.save((err, user) => {
           return res.json({
@@ -71,7 +120,7 @@ exports.accountActivation = (req, res) => {
             token: token,
           });
         });
-        console.log("ddd")
+        console.log("ddd");
       }
     );
   } else {
@@ -84,28 +133,30 @@ exports.accountActivation = (req, res) => {
 exports.signin = (req, res) => {
   const { email, password } = req.body;
   // check if user exists or not
-  User.findOne({ email }).select('+hashed_password').exec((err, user) => {
-    if (err || !user) {
-      return res.status(400).json({
-        error: "User with that email does not exist. Please signup",
-      });
-    }
-    // authenticate
-    if (!user.authenticate(password)) {
-      return res.status(400).json({
-        error: "Email and password do not match",
-      });
-    }
-  
-    // generate a token and send to client
-    const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET, {
-      expiresIn: "7d",
-    });
+  User.findOne({ email })
+    .select("+hashed_password")
+    .exec((err, user) => {
+      if (err || !user) {
+        return res.status(400).json({
+          error: "User with that email does not exist. Please signup",
+        });
+      }
+      // authenticate
+      if (!user.authenticate(password)) {
+        return res.status(400).json({
+          error: "Email and password do not match",
+        });
+      }
 
-    return res.json({
-      token,
+      // generate a token and send to client
+      const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET, {
+        expiresIn: "7d",
+      });
+
+      return res.json({
+        token,
+      });
     });
-  });
 };
 //forgot password controller
 exports.forgotPassword = (req, res) => {
@@ -117,7 +168,7 @@ exports.forgotPassword = (req, res) => {
         error: "User with that email does not exist",
       });
     }
-  
+
     //signing the token
     const token = jwt.sign(
       { _id: user._id, name: user.name },
@@ -141,7 +192,7 @@ exports.forgotPassword = (req, res) => {
     };
     sendEmailWithNodemailer(req, res, emailData);
     return user.updateOne({ resetPasswordLink: token }, (err, success) => {});
-  }).select('+hashed_password');
+  }).select("+hashed_password");
 };
 //reset password controller
 exports.resetPassword = (req, res) => {
@@ -178,29 +229,40 @@ exports.resetPassword = (req, res) => {
               message: `Great! Now you can login with your new password`,
             });
           });
-        }).select('+hashed_password');
+        }).select("+hashed_password");
       }
     );
   }
 };
 
 //get current user
-exports.loadUser = async(req, res) => {
-  const { firstName, lastName, CIN,socialLink,address,studyField,birthDate,email,university, phone} = req.user;
+exports.loadUser = async (req, res) => {
+  const {
+    firstName,
+    lastName,
+    CIN,
+    socialLink,
+    address,
+    studyField,
+    birthDate,
+    email,
+    university,
+    phone,
+  } = req.user;
 
+  const user = await User.findById(req.user._id)
+    .select("-salt")
+    .populate({ path: "roomMates", select: "email firstName lastName _id" });
 
-  const user=await User.findById(req.user._id).select('-salt').populate({ path: 'roomMates', select: 'email firstName lastName _id' })
- 
-  res.status(200).send({ msg: "load user  succ", user:user});
+  res.status(200).send({ msg: "load user  succ", user: user });
 };
 
 exports.loadAllUsers = async (req, res) => {
   try {
     const result = await User.find().select("-hashed_password  -salt -__v");
-    
+
     res.send({ response: result, message: "users found" });
   } catch (error) {
     res.status(400).send({ message: "can not get users" });
   }
 };
-

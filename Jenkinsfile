@@ -4,6 +4,11 @@ pipeline {
     tools {
         nodejs 'my-node'
     }
+    environment {
+        VERSION=1.0
+        IMAGE_NAME='hazem06/ncsc_test:node-app-test-1.0'
+        IMAGE_NAME_RELEASE='hazem06/ncsc_test:node-app-release-1.0'
+    }
     stages {
         stage("init") {
             steps {
@@ -17,7 +22,7 @@ pipeline {
             steps {
                 script {
                   
-                   gv.buildImage(  'hazem06/ncsc_backend:node-app-test-1.0')
+                   gv.buildImage(env.IMAGE_NAME)
                 }
             }
         }
@@ -25,7 +30,7 @@ pipeline {
             steps {
                 script {
                   
-                   gv.test('hazem06/ncsc_backend:node-app-test-1.0')
+                   gv.test(env.IMAGE_NAME)
                 }
             }
         }
@@ -33,7 +38,7 @@ pipeline {
             steps {
                 script {
                   
-                   gv.release('hazem06/ncsc_backend:node-app-test-1.0')
+                   gv.release(env.IMAGE_NAME)
                 }
             }
         }
@@ -41,7 +46,7 @@ pipeline {
             steps {
                 script {
                   
-                    gv.deployApp('hazem06/ncsc_backend:node-app-release-1.0')
+                    gv.deployApp(env.IMAGE_NAME_RELEASE)
                     
                 }
             }
@@ -49,14 +54,14 @@ pipeline {
     } 
     post {
        always {
-        emailext body: 'build ', recipientProviders: [[$class: 'DevelopersRecipientProvider'], [$class: 'RequesterRecipientProvider']], subject: 'Test'
+        emailext body: 'build', recipientProviders: [[$class: 'DevelopersRecipientProvider'], [$class: 'RequesterRecipientProvider']], subject: 'Test'
         }
   
          success {  
-              emailext body: 'success', recipientProviders: [[$class: 'DevelopersRecipientProvider'], [$class: 'RequesterRecipientProvider']], subject: 'success'
+              emailext body: 'successss', recipientProviders: [[$class: 'DevelopersRecipientProvider'], [$class: 'RequesterRecipientProvider']], subject: 'success'
          }  
          failure {  
-            emailext body: 'fail', recipientProviders: [[$class: 'DevelopersRecipientProvider'], [$class: 'RequesterRecipientProvider']], subject: 'fail'
+            emailext body: 'failll', recipientProviders: [[$class: 'DevelopersRecipientProvider'], [$class: 'RequesterRecipientProvider']], subject: 'fail'
          }  
 }
 

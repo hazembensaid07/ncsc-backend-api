@@ -12,6 +12,7 @@ const api = require("./helpers/apiUri");
 
 // middleware global to work with json format
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 app.use(cors());
 // router
@@ -19,7 +20,6 @@ app.use(`${api()}`, require("./routes/user"));
 app.use(`${api()}`, require("./routes/booking"));
 
 app.use(`${api()}`, require("./routes/request"));
-
 
 const PORT = process.env.PORT;
 // linkin the server to the port

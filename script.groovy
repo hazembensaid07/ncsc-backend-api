@@ -4,12 +4,12 @@ def buildImage(String imageName) {
     withCredentials([usernamePassword(credentialsId: 'dockerhub', passwordVariable: 'PASS', usernameVariable: 'USER')]) {
         //building the image with dockerhub repo tag
         sh "docker build -t $imageName ."
-        sh "docker build -t  hazem06/ncsc_test:nginx ./nginx/"
+        sh "docker build -t  hazem06/ncsc_backend:nginx ./nginx/"
         //login to dockerhub
         sh "echo $PASS | docker login -u $USER --password-stdin"
         //pushing the image to dockerhub
         sh "docker push $imageName"
-        sh "docker push hazem06/ncsc_test:nginx"
+        sh "docker push hazem06/ncsc_backend:nginx"
     }
 } 
 def test(String imageName) {
@@ -27,8 +27,8 @@ def release(String imageName) {
         sh "echo $PASS | docker login -u $USER --password-stdin"
         sh "docker pull $imageName "
 
-        sh "docker tag  $imageName hazem06/ncsc_test:node-app-release-1.0"
-        sh "docker push hazem06/ncsc_test:node-app-release-1.0 "
+        sh "docker tag  $imageName hazem06/ncsc_backend:node-app-release-1.0"
+        sh "docker push hazem06/ncsc_backend:node-app-release-1.0 "
     }
 }
 def deployApp(String imageName) {

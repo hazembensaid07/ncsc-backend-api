@@ -6,8 +6,8 @@ pipeline {
     }
     environment {
         VERSION=1.0
-        IMAGE_NAME='hazem06/ncsc_test:node-app-test-1.0'
-        IMAGE_NAME_RELEASE='hazem06/ncsc_test:node-app-release-1.0'
+        IMAGE_NAME='hazem06/ncsc_backend:node-app-test-1.0'
+        IMAGE_NAME_RELEASE='hazem06/ncsc_backend:node-app-release-1.0'
     }
     stages {
         stage("init") {

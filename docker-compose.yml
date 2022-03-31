@@ -16,6 +16,7 @@ services:
       - JWT_SECRET=SZ5+'3eE)hhDbpNF
       - JWT_RESET_PASSWORD=:'~.vJ!T>\2^3t?\
       - JWT_ACCOUNT_ACTIVATION=jWAJM#6PE53@a")t
+      - GO=bhbdhf
     depends_on:
       - mongodb
     networks:

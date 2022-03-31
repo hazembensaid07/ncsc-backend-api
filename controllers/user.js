@@ -53,7 +53,7 @@ exports.signup = (req, res) => {
       );
       // activation email that will be sent to the user
       const emailData = {
-        from: "fsecon.booking@gmail.com", // MAKE SURE THIS EMAIL IS YOUR GMAIL FOR WHICH YOU GENERATED APP PASSWORD
+        from: process.env.EMAIL, // MAKE SURE THIS EMAIL IS YOUR GMAIL FOR WHICH YOU GENERATED APP PASSWORD
         to: req.body.email, // WHO SHOULD BE RECEIVING THIS EMAIL? IT SHOULD BE THE USER EMAIL (VALID EMAIL ADDRESS) WHO IS TRYING TO SIGNUP
         subject: "ACCOUNT ACTIVATION LINK",
         html: `

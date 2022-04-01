@@ -1,6 +1,6 @@
 def gv
 pipeline {
-    agent any
+    agent aws
     tools {
         nodejs 'my-node'
     }

@@ -1,0 +1,27 @@
+name: NCSC  CI_CD
+
+on:
+  push:
+    branches: [production]
+  pull_request:
+    branches: [production]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v1
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+      - name: Login to DockerHub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      - name: Build image and push the images 
+        run : | 
+          docker build -t  hazem06/ncsc_backend:node-1.0-release .
+          docker build -t hazem06/ncsc_backend:nginx ./nginx/
+          docker push hazem06/ncsc_backend:node-1.0-release 
+          docker push hazem06/ncsc_backend:nginx

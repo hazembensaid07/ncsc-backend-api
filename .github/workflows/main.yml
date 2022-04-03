@@ -62,5 +62,5 @@ jobs:
           username: ${{ secrets.AWS_EC2_USERNAME  }}
           port: 22
           key: ${{ secrets.AWS_EC2_PEM  }}
-        source: "server-cmd.sh ,docker-compose.yml"
-        target: "/home/ubuntu"
+          source: "server-cmd.sh ,docker-compose.yml"
+          target: "/home/ubuntu"

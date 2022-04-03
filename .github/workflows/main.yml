@@ -70,6 +70,6 @@ jobs:
           AWS_EC2_PUBLIC_IP: ${{ secrets.AWS_EC2_PUBLIC_IP  }}
           AWS_EC2_USERNAME: ${{ secrets.AWS_EC2_USERNAME  }}
         run: |
-          echo "$AWS_EC2_PEM" > private_key.pem  && chmod 600 private_key
-          ssh -o StrictHostKeyChecking=no -i private_key ${AWS_EC2_USERNAME}@${AWS_EC2_PUBLIC_IP} '
+          echo "$AWS_EC2_PEM" > private_key.pem  && chmod 600 private_key.pem
+          ssh -o StrictHostKeyChecking=no -i private_key.pem ${AWS_EC2_USERNAME}@${AWS_EC2_PUBLIC_IP} '
             bash ./server-cmd.sh hazem06/ncsc_backend:node-app-release-1.0'

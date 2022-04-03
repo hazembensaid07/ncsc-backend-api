@@ -7,8 +7,24 @@ on:
     branches: [production]
 
 jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [12.x, 14.x, 16.x]
+        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
+    steps:
+      - uses: actions/checkout@v3
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: "npm"
+      - run: npm  run test
+
   build:
     runs-on: ubuntu-latest
+    needs: test
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -26,48 +42,16 @@ jobs:
         with:
           context: .
           push: true
-          tags: hazem06/ncsc_backend:node-app-test-1.0
+          tags: hazem06/ncsc_backend:node-app-release-1.0
       - name: Build and push nginx
         uses: docker/build-push-action@v2
         with:
           context: ./nginx/
           push: true
           tags: hazem06/ncsc_backend:nginx-latest
-  test:
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-      - name: Login to DockerHub
-        uses: docker/login-action@v1
-        with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
-      - name: pull the image
-        run: docker pull  hazem06/ncsc_backend:node-app-test-1.0
-      - name: run the test
-        run: echo 'testing'
-  release:
-    needs: test
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-      - name: Login to DockerHub
-        uses: docker/login-action@v1
-        with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
-      - name: pull the image
-        run: docker pull  hazem06/ncsc_backend:node-app-test-1.0
-      - name: tag image to release
-        run: |
-          docker tag  hazem06/ncsc_backend:node-app-test-1.0 hazem06/ncsc_backend:node-app-release-1.0
-          docker push  hazem06/ncsc_backend:node-app-release-1.0
   deploy:
     runs-on: ubuntu-latest
-    needs: release
+    needs: build
     steps:
       - name: Checkout
         uses: actions/checkout@v2

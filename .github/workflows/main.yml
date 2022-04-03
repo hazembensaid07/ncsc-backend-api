@@ -64,3 +64,11 @@ jobs:
           key: ${{ secrets.AWS_EC2_PEM  }}
           source: "server-cmd.sh ,docker-compose.yml"
           target: "/home/ubuntu"
+      - name: deploy to ec2 instance
+        env:
+          AWS_EC2_PEM: ${{ secrets.AWS_EC2_PEM  }}
+          AWS_EC2_PUBLIC_IP: ${{ secrets.AWS_EC2_PUBLIC_IP  }}
+          AWS_EC2_USERNAME: ${{ secrets.AWS_EC2_USERNAME  }}
+        run: |
+          ssh -o StrictHostKeyChecking=no -i private_key ${AWS_EC2_USERNAME}@${AWS_EC2_PUBLIC_IP} '
+            bash ./server-cmd.sh hazem06/ncsc_backend:node-app-release-1.0'

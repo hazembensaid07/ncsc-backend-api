@@ -10,6 +10,8 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout
+        uses: actions/checkout@v2
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v1
       - name: Set up Docker Buildx
@@ -19,10 +21,17 @@ jobs:
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
-      - name: Build image and push the images
-        run: |
-          docker build -t  hazem06/ncsc_backend:node-1.0-release ./
-          docker build -t hazem06/ncsc_backend:nginx ./nginx/ 
-          docker push hazem06/ncsc_backend:node-1.0-release 
-          docker push hazem06/ncsc_backend:nginx
+      - name: Build and push node
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          push: true
+          tags: hazem06/ncsc_backend:node-app-latest
+      - name: Build and push nginx
+        uses: docker/build-push-action@v2
+        with:
+          context: ./nginx/
+          push: true
+          tags: hazem06/ncsc_backend:nginx-latest
+
 

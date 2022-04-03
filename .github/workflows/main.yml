@@ -33,17 +33,17 @@ jobs:
           context: ./nginx/
           push: true
           tags: hazem06/ncsc_backend:nginx-latest
-  test: 
+  test:
     runs-on: ubuntu-latest
     steps:
-    - name: Checkout
+      - name: Checkout
         uses: actions/checkout@v2
-    - name: Login to DockerHub
+      - name: Login to DockerHub
         uses: docker/login-action@v1
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
-    -name : pull the image 
-      run : docker pull  hazem06/ncsc_backend:node-app-latest
-    -name : run the test 
-      run : echo 'testing'
+      - name: pull the image
+        run: docker pull  hazem06/ncsc_backend:node-app-latest
+      - name: run the test
+        run: echo 'testing'

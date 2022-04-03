@@ -64,7 +64,7 @@ jobs:
           key: ${{ secrets.AWS_EC2_PEM  }}
           source: "server-cmd.sh ,docker-compose.yml"
           target: "/home/ubuntu"
-      - name: deploy to ec2 instance
+      - name: deploy to ec2 instance and  run compose
         env:
           AWS_EC2_PEM: ${{ secrets.AWS_EC2_PEM  }}
           AWS_EC2_PUBLIC_IP: ${{ secrets.AWS_EC2_PUBLIC_IP  }}

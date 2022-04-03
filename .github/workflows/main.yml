@@ -60,4 +60,4 @@ jobs:
       - name: pull the image
         run: docker pull  hazem06/ncsc_backend:node-app-test-1.0
       - name: tag image to release
-        run: docker push  hazem06/ncsc_test:node-app-release-1.0
+        run: docker push  hazem06/ncsc_backend:node-app-release-1.0

@@ -26,7 +26,7 @@ jobs:
         with:
           context: .
           push: true
-          tags: hazem06/ncsc_backend:node-app-latest
+          tags: hazem06/ncsc_backend:node-app-test-1.0
       - name: Build and push nginx
         uses: docker/build-push-action@v2
         with:
@@ -44,7 +44,7 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
       - name: pull the image
-        run: docker pull  hazem06/ncsc_backend:node-app-latest
+        run: docker pull  hazem06/ncsc_backend:node-app-test-1.0
       - name: run the test
         run: echo 'testing'
   release:
@@ -58,6 +58,6 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
       - name: pull the image
-        run: docker pull  hazem06/ncsc_backend:node-app-latest
+        run: docker pull  hazem06/ncsc_backend:node-app-test-1.0
       - name: tag image to release
-        run: docker push  hazem06/ncsc_backend:node-app-release-1.0
+        run: docker push  hazem06/ncsc_test:node-app-release-1.0

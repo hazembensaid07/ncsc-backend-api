@@ -34,6 +34,7 @@ jobs:
           push: true
           tags: hazem06/ncsc_backend:nginx-latest
   test:
+    needs: build
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -48,6 +49,7 @@ jobs:
       - name: run the test
         run: echo 'testing'
   release:
+    needs: test
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -65,6 +67,7 @@ jobs:
           docker push  hazem06/ncsc_backend:node-app-release-1.0
   deploy:
     runs-on: ubuntu-latest
+    needs: release
     steps:
       - name: Checkout
         uses: actions/checkout@v2

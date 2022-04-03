@@ -19,9 +19,10 @@ jobs:
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
-      - name: Build image and push the images 
-        run : | 
-          docker build -t  hazem06/ncsc_backend:node-1.0-release .
-          docker build -t hazem06/ncsc_backend:nginx ./nginx/
+      - name: Build image and push the images
+        run: |
+          docker build -t  hazem06/ncsc_backend:node-1.0-release .  --file Dockerfile
+          docker build -t hazem06/ncsc_backend:nginx ./nginx/ --file Dockerfile
           docker push hazem06/ncsc_backend:node-1.0-release 
           docker push hazem06/ncsc_backend:nginx
+

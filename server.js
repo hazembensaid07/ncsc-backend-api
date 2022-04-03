@@ -24,5 +24,5 @@ app.use(`${api()}`, require("./routes/request"));
 const PORT = process.env.PORT;
 // linkin the server to the port
 app.listen(PORT, (err) =>
-  err ? console.error(err) : console.log("server is running", PORT)
+  err ? console.error(err) : console.log("server is runningg", PORT)
 );

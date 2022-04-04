@@ -69,7 +69,7 @@ jobs:
           username: ${{ secrets.AWS_EC2_USERNAME  }}
           port: 22
           key: ${{ secrets.AWS_EC2_PEM  }}
-          source: "server-cmd.sh ,docker-compose.yml .env"
+          source: "server-cmd.sh ,docker-compose.yml /github/workspace/./.env"
           target: "/home/ubuntu"
       - name: deploy to ec2 instance and  run compose
         env:

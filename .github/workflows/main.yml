@@ -55,18 +55,21 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
+      - name: Make envfile
+        uses: SpicyPizza/create-envfile@v1.3
+        with:
+        envkey_SECRET_KEY: ${{ secrets.AWS_EC2_PUBLIC_IP }}
+        directory: .
+        file_name: .env
+        fail_on_empty: false
       - name: copy files via ssh key
         uses: appleboy/scp-action@master
-        run: |
-         mkdir env
-         touch ./env/.env
-         echo JWT_ALGORITHM=${{ secrets.AWS_EC2_PUBLIC_IP  }} >> ./env/.env
         with:
           host: ${{ secrets.AWS_EC2_PUBLIC_IP  }}
           username: ${{ secrets.AWS_EC2_USERNAME  }}
           port: 22
           key: ${{ secrets.AWS_EC2_PEM  }}
-          source: "server-cmd.sh ,docker-compose.yml ./env/.env"
+          source: "server-cmd.sh ,docker-compose.yml .env"
           target: "/home/ubuntu"
       - name: deploy to ec2 instance and  run compose
         env:

@@ -57,12 +57,16 @@ jobs:
         uses: actions/checkout@v2
       - name: copy files via ssh key
         uses: appleboy/scp-action@master
+        run: |
+         mkdir env
+         touch ./env/.env
+         echo JWT_ALGORITHM=${{ secrets.AWS_EC2_PUBLIC_IP  }} >> ./env/.env
         with:
           host: ${{ secrets.AWS_EC2_PUBLIC_IP  }}
           username: ${{ secrets.AWS_EC2_USERNAME  }}
           port: 22
           key: ${{ secrets.AWS_EC2_PEM  }}
-          source: "server-cmd.sh ,docker-compose.yml"
+          source: "server-cmd.sh ,docker-compose.yml ./env/.env"
           target: "/home/ubuntu"
       - name: deploy to ec2 instance and  run compose
         env:
@@ -71,9 +75,6 @@ jobs:
           AWS_EC2_USERNAME: ${{ secrets.AWS_EC2_USERNAME  }}
         run: |
           echo "$AWS_EC2_PEM" > private_key.pem  && chmod 600 private_key.pem
-          mkdir env
-          touch ./env/.env
-          echo JWT_ALGORITHM=${{ secrets.AWS_EC2_PUBLIC_IP  }} >> ./env/.env
           ssh -o StrictHostKeyChecking=no -i private_key.pem ${AWS_EC2_USERNAME}@${AWS_EC2_PUBLIC_IP} '
             scp  ./env/.env ./env
             bash ./server-cmd.sh hazem06/ncsc_backend:node-app-release-1.0'

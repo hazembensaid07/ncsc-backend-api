@@ -69,7 +69,7 @@ jobs:
           username: ${{ secrets.AWS_EC2_USERNAME  }}
           port: 22
           key: ${{ secrets.AWS_EC2_PEM  }}
-          source: "server-cmd.sh ,docker-compose.yml ,/github/workspace/./.env"
+          source: "server-cmd.sh ,docker-compose.yml "
           target: "/home/ubuntu"
       - name: deploy to ec2 instance and  run compose
         env:
@@ -79,5 +79,4 @@ jobs:
         run: |
           echo "$AWS_EC2_PEM" > private_key.pem  && chmod 600 private_key.pem
           ssh -o StrictHostKeyChecking=no -i private_key.pem ${AWS_EC2_USERNAME}@${AWS_EC2_PUBLIC_IP} '
-            scp  ./env/.env ./env
             bash ./server-cmd.sh hazem06/ncsc_backend:node-app-release-1.0'

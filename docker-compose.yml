@@ -28,6 +28,8 @@ services:
       - "80:80"
     networks:
       - node-network
+    depends_on:
+      - app
   mongodb:
     image: mongo
     container_name: mongoo

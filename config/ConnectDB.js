@@ -1,4 +1,4 @@
-// require mongoose DAO communicaion betweeen server and Db
+// require mongoose DAO (Data Access Object) communicaion betweeen server and Db
 const mongoose = require("mongoose");
 
 const connectDB = async () => {

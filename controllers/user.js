@@ -179,7 +179,7 @@ exports.forgotPassword = (req, res) => {
     );
 
     const emailData = {
-      from: process.env.EMAIL_FROM,
+      from: process.env.EMAIL,
       to: email,
       subject: `Password Reset link`,
       html: `
@@ -256,7 +256,7 @@ exports.loadUser = async (req, res) => {
 
   res.status(200).send({ msg: "load user  succ", user: user });
 };
-
+//get all users
 exports.loadAllUsers = async (req, res) => {
   try {
     const result = await User.find().select("-hashed_password  -salt -__v");

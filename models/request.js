@@ -1,27 +1,23 @@
 const mongoose = require("mongoose");
 const { Schema, model } = mongoose;
-
+//request model
 const requestSchema = new Schema({
- 
-  
- Sender: {
-  type : mongoose.Schema.Types.ObjectId,
-  ref : 'User',
-  
+  //user who sends the request id
+  Sender: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
   },
+  //user who receives the request id
   Receiver: {
-    type : mongoose.Schema.Types.ObjectId,
-    ref : 'User',
-    
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
   },
-  
+  //request status pending by default if accepted or declined it will be deleted from the db
+  status: {
+    type: String,
 
-  status:{
-    type:String,
-   
-    default: "en attente"
-  }
- 
+    default: "en attente",
+  },
 });
 
-module.exports =Request = model("request", requestSchema);
+module.exports = Request = model("request", requestSchema);

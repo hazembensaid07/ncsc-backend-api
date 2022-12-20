@@ -1,43 +1,43 @@
 //our document structure it conatines the attributes of the document with type and mention if it is required or not
 const mongoose = require("mongoose");
 const crypto = require("crypto");
-// user schema
+// client model
 const userScheama = new mongoose.Schema(
   {
-      firstName: {
+    firstName: {
       type: String,
       trim: true,
       required: true,
       max: 32,
     },
-    
-     lastName: {
+
+    lastName: {
       type: String,
       trim: true,
       required: true,
       max: 32,
     },
-    CIN:{
-      type:String,
-      required:true,
+    CIN: {
+      type: String,
+      required: true,
       max: 8,
     },
     socialLink: {
-      type:String,
-      required:true,
+      type: String,
+      required: true,
     },
-    birthDate : {
-      type : String,
-      required :true,
+    birthDate: {
+      type: String,
+      required: true,
     },
     address: {
-      type:String,
-      required:true,
+      type: String,
+      required: true,
     },
-    
-    studyField:{
-      type:String,
-      required:true,
+
+    studyField: {
+      type: String,
+      required: true,
     },
     email: {
       type: String,
@@ -49,21 +49,19 @@ const userScheama = new mongoose.Schema(
     hashed_password: {
       type: String,
       required: true,
-      select: false
-      
+      select: false,
     },
-    
-   
+
     phone: {
       type: String,
-      default: ""
+      default: "",
     },
     university: {
       type: String,
       required: true,
     },
     salt: String,
-     
+
     role: {
       type: String,
       default: "customer",
@@ -76,14 +74,13 @@ const userScheama = new mongoose.Schema(
       data: String,
       default: "",
     },
-   roomMates : [{
-      type : mongoose.Schema.Types.ObjectId,
-      ref : 'User',
-      
-    } ] ,
-  
-    
-  
+    //one to many relationship between user and his roomates
+    roomMates: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User",
+      },
+    ],
   },
   { timestamps: true }
 );

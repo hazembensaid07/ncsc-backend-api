@@ -10,15 +10,15 @@ exports.userSignupValidator = [
     .withMessage("Password must be at least  6 characters long"),
   //not negate the result of the nextvalidator
   check("CIN")
-  .not()
-  .isEmpty()
-  .isLength({ min: 8, max:8 })
-  .withMessage("cin  is required and must be valid"),
-  
-    check("socialLink").not().isEmpty().withMessage("socialLink is required"),
-    check("address").not().isEmpty().withMessage("address is required"),
-    check("studyField").not().isEmpty().withMessage("studyField is required"),
-    check("birthDate")
+    .not()
+    .isEmpty()
+    .isLength({ min: 8, max: 8 })
+    .withMessage("cin  is required and must be valid"),
+
+  check("socialLink").not().isEmpty().withMessage("socialLink is required"),
+  check("address").not().isEmpty().withMessage("address is required"),
+  check("studyField").not().isEmpty().withMessage("studyField is required"),
+  check("birthDate")
     .not()
     .isEmpty()
     .isDate({ format: "DD-MM-YYYY" })
@@ -48,5 +48,3 @@ exports.resetPasswordValidator = [
     .isLength({ min: 6 })
     .withMessage("Password must be at least  6 characters long"),
 ];
-
-

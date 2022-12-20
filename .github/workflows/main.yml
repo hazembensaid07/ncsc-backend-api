@@ -2,26 +2,9 @@ name: NCSC  CI_CD
 
 on:
   push:
-    branches: [production]
-  pull_request:
-    branches: [production]
+    branches: []
 
 jobs:
-  test:
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node-version: [16.x]
-        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
-    steps:
-      - uses: actions/checkout@v3
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v3
-        with:
-          node-version: ${{ matrix.node-version }}
-          cache: "npm"
-      - run: npm  run test
-
   build:
     runs-on: ubuntu-latest
     needs: test
@@ -43,40 +26,35 @@ jobs:
           context: .
           push: true
           tags: hazem06/ncsc_backend:node-app-release-1.0
-      - name: Build and push nginx
-        uses: docker/build-push-action@v2
-        with:
-          context: ./nginx/
-          push: true
-          tags: hazem06/ncsc_backend:nginx-latest
-  deploy:
-    runs-on: ubuntu-latest
-    needs: build
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-      - name: Make envfile
-        uses: SpicyPizza/create-envfile@v1.3
-        with:
-         envkey_SECRET_KEY: ${{ secrets.AWS_EC2_PUBLIC_IP }}
-         directory: .
-         file_name: .env
-         fail_on_empty: false
-      - name: copy files via ssh key
-        uses: appleboy/scp-action@master
-        with:
-          host: ${{ secrets.AWS_EC2_PUBLIC_IP  }}
-          username: ${{ secrets.AWS_EC2_USERNAME  }}
-          port: 22
-          key: ${{ secrets.AWS_EC2_PEM  }}
-          source: "server-cmd.sh ,docker-compose.yml "
-          target: "/home/ubuntu"
-      - name: deploy to ec2 instance and  run compose
-        env:
-          AWS_EC2_PEM: ${{ secrets.AWS_EC2_PEM  }}
-          AWS_EC2_PUBLIC_IP: ${{ secrets.AWS_EC2_PUBLIC_IP  }}
-          AWS_EC2_USERNAME: ${{ secrets.AWS_EC2_USERNAME  }}
-        run: |
-          echo "$AWS_EC2_PEM" > private_key.pem  && chmod 600 private_key.pem
-          ssh -o StrictHostKeyChecking=no -i private_key.pem ${AWS_EC2_USERNAME}@${AWS_EC2_PUBLIC_IP} '
-            bash ./server-cmd.sh hazem06/ncsc_backend:node-app-release-1.0'
+
+  #deploy:
+  # runs-on: ubuntu-latest
+  #needs: build
+  #steps:
+  # - name: Checkout
+  #  uses: actions/checkout@v2
+  #- name: Make envfile
+  # uses: SpicyPizza/create-envfile@v1.3
+  #with:
+  # envkey_SECRET_KEY: ${{ secrets.AWS_EC2_PUBLIC_IP }}
+  #directory: .
+  #file_name: .env
+  #fail_on_empty: false
+  #- name: copy files via ssh key
+  # uses: appleboy/scp-action@master
+  #with:
+  # host: ${{ secrets.AWS_EC2_PUBLIC_IP  }}
+  #username: ${{ secrets.AWS_EC2_USERNAME  }}
+  #port: 22
+  #key: ${{ secrets.AWS_EC2_PEM  }}
+  #source: "server-cmd.sh ,docker-compose.yml "
+  #target: "/home/ubuntu"
+  #- name: deploy to ec2 instance and  run compose
+  # env:
+  #  AWS_EC2_PEM: ${{ secrets.AWS_EC2_PEM  }}
+  #AWS_EC2_PUBLIC_IP: ${{ secrets.AWS_EC2_PUBLIC_IP  }}
+  #AWS_EC2_USERNAME: ${{ secrets.AWS_EC2_USERNAME  }}
+  #run: |
+  # echo "$AWS_EC2_PEM" > private_key.pem  && chmod 600 private_key.pem
+  #ssh -o StrictHostKeyChecking=no -i private_key.pem ${AWS_EC2_USERNAME}@${AWS_EC2_PUBLIC_IP} '
+  # bash ./server-cmd.sh hazem06/ncsc_backend:node-app-release-1.0'

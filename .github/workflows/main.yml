@@ -2,7 +2,7 @@ name: NCSC  CI_CD
 
 on:
   push:
-    branches: []
+    branches: [production]
 
 jobs:
   build:

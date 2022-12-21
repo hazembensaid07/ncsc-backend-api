@@ -44,6 +44,7 @@ app.use(`${api()}`, require("./routes/user"));
 app.use(`${api()}`, require("./routes/booking"));
 
 app.use(`${api()}`, require("./routes/request"));
+//swagger route
 app.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 const PORT = process.env.PORT;

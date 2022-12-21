@@ -29,7 +29,7 @@ exports.isAuth = async (req, res, next) => {
 
     next();
   } catch (error) {
-    return res.status(500).send({ errors: [{ msg: "Unau" }] });
+    return res.status(500).send({ errors: [{ msg: "server error" }] });
   }
 };
 //to protect the admin access
@@ -58,8 +58,6 @@ exports.admin = async (req, res, next) => {
 
     next();
   } catch (error) {
-    return res
-      .status(500)
-      .send({ errors: [{ msg: "something went wrong try later" }] });
+    return res.status(500).send({ errors: [{ msg: "server error" }] });
   }
 };

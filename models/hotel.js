@@ -5,7 +5,7 @@ const hotelSchema = new Schema({
   //available rooms
   rooms: {
     type: Number,
-
+    required: true,
     default: 500,
   },
   //available transport places

@@ -57,7 +57,7 @@ exports.addbooking = async (req, res) => {
       res.status(200).send({ message: "booking  added with success" });
     }
   } catch (error) {
-    res.status(400).send("can not save it");
+    res.status(401).send("can not save it");
   }
 };
 //get booking by userid
@@ -69,13 +69,13 @@ exports.loadBooking = async (req, res) => {
     const result = await Booking.findById(id);
 
     if (!result) {
-      res.status(400).send({ msg: "there is no booking  " });
+      res.status(401).send({ msg: "there is no booking  " });
       return;
     } else {
       res.status(200).send({ message: "booking   found ", result });
     }
   } catch (error) {
-    res.status(400).send({ message: "try later cannot respond" });
+    res.status(500).send({ message: "try later cannot respond" });
   }
 };
 exports.loadBookingByUserEmail = async (req, res) => {
@@ -86,31 +86,13 @@ exports.loadBookingByUserEmail = async (req, res) => {
     const result = await Booking.findOne({ emails: email });
 
     if (!result) {
-      res.status(400).send({ msg: "there is no booking  " });
+      res.status(401).send({ msg: "there is no booking  " });
       return;
     } else {
       res.status(200).send({ message: "booking   found ", result });
     }
   } catch (error) {
-    res.status(400).send({ message: "try later cannot respond" });
-  }
-};
-//get booking by email
-exports.loadBookingByEmail = async (req, res) => {
-  try {
-    //get the id from params
-    const email = req.body.email;
-    //lauch findById query
-    const result = await Booking.find({ emails: email });
-    const r = await User.findOne({ email: email });
-    if (!result) {
-      res.status(400).send({ msg: "there is no booking  " });
-      return;
-    } else {
-      res.status(200).send({ message: "booking   found ", result, r });
-    }
-  } catch (error) {
-    res.status(400).send({ message: "try later cannot respond" });
+    res.status(500).send({ message: "try later cannot respond" });
   }
 };
 // get all bookings
@@ -121,7 +103,7 @@ exports.loadBookings = async (req, res) => {
 
     res.status(200).send({ response: result, message: "bookings  found", r });
   } catch (error) {
-    res.status(400).send({ message: "can not get bookings" });
+    res.status(401).send({ message: "can not get bookings" });
   }
 };
 //get booked rooms
@@ -146,7 +128,7 @@ exports.getRooms = async (req, res) => {
       message: "rooms per category",
     });
   } catch (error) {
-    res.status(400).send({ message: "can not get rooms" });
+    res.status(401).send({ message: "can not get rooms" });
   }
 };
 
@@ -177,7 +159,7 @@ exports.getAvailableRooms_Transport = async (req, res) => {
     });
   } catch (error) {
     console.log(error.message);
-    res.status(400).send({ message: "error try later" });
+    res.status(401).send({ message: "error try later" });
   }
 };
 //add rooms
@@ -187,7 +169,7 @@ exports.addAvailableRooms_Transport = async (req, res) => {
     const response = await hotel.save();
     res.status(200).send({ message: "hotel  added with success" });
   } catch (error) {
-    res.status(400).send("can not save it");
+    res.status(401).send("can not save it");
   }
 };
 //delete bookings
@@ -226,7 +208,7 @@ exports.deleteBooking = async (req, res) => {
     }
     res.status(200).send({ message: "booking deleted" });
   } catch (error) {
-    res.status(400).send({ message: "can not get bookings" });
+    res.status(401).send({ message: "can not get bookings" });
   }
 };
 // delete roommates
@@ -259,6 +241,6 @@ exports.deleteRoomMate = async (req, res) => {
       res.status(200).send({ message: "roomMate deleted" });
     }
   } catch (error) {
-    res.status(400).send({ error: "can not delete" });
+    res.status(401).send({ error: "can not delete" });
   }
 };

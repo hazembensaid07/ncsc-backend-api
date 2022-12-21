@@ -81,7 +81,7 @@ exports.accountActivation = (req, res) => {
       function (err, decoded) {
         if (err) {
           console.log("JWT VERIFY IN ACCOUNT ACTIVATION ERROR", err);
-          return res.status(401).json({
+          return res.status(400).json({
             error: "Expired link. Signup again",
           });
         }
@@ -115,7 +115,7 @@ exports.accountActivation = (req, res) => {
         });
         // saving the user to the DB
         user.save((err, user) => {
-          return res.json({
+          return res.status(200).json({
             message: "Signup success. Please signin.",
             token: token,
           });
@@ -143,7 +143,7 @@ exports.signin = (req, res) => {
       }
       // authenticate
       if (!user.authenticate(password)) {
-        return res.status(400).json({
+        return res.status(401).json({
           error: "Email and password do not match",
         });
       }
@@ -153,7 +153,7 @@ exports.signin = (req, res) => {
         expiresIn: "7d",
       });
 
-      return res.json({
+      return res.status(200).json({
         token,
       });
     });
@@ -212,7 +212,7 @@ exports.resetPassword = (req, res) => {
         //finding the user
         User.findOne({ resetPasswordLink }, (err, user) => {
           if (err || !user) {
-            return res.status(400).json({
+            return res.status(401).json({
               error: "Something went wrong. Try later",
             });
           }
@@ -225,7 +225,7 @@ exports.resetPassword = (req, res) => {
           user = _.extend(user, updatedFields);
           //saving the user
           user.save((err, result) => {
-            res.json({
+            res.status(200).json({
               message: `Great! Now you can login with your new password`,
             });
           });
@@ -261,8 +261,8 @@ exports.loadAllUsers = async (req, res) => {
   try {
     const result = await User.find().select("-hashed_password  -salt -__v");
 
-    res.send({ response: result, message: "users found" });
+    res.status(200).send({ response: result, message: "users found" });
   } catch (error) {
-    res.status(400).send({ message: "can not get users" });
+    res.status(401).send({ message: "can not get users" });
   }
 };

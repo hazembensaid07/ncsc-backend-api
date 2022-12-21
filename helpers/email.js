@@ -17,5 +17,5 @@ exports.sendEmailWithNodemailer = (req, res, emailData) => {
         message: `Email has been sent to your email. Follow the instruction `,
       });
     })
-    .catch((err) => res.status(400).send({ message: err.message }));
+    .catch((err) => res.status(500).send({ message: "server error" }));
 };

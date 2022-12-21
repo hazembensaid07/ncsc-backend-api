@@ -4,7 +4,6 @@ const {
   addbooking,
   loadBookings,
   loadBooking,
-  Transportplaces,
   getRooms,
   getAvailableRooms_Transport,
   addAvailableRooms_Transport,

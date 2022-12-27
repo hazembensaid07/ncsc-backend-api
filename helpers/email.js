@@ -5,8 +5,8 @@ exports.sendEmailWithNodemailer = (req, res, emailData) => {
     host: "mail.gandi.net",
     port: 465,
     auth: {
-      user: "no-reply@contracktime.com",
-      pass: "N@reply2022",
+      user: process.env.EMAIL,
+      pass: process.env.Password,
     },
   });
 
